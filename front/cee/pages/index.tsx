@@ -9,8 +9,7 @@ export default function Home() {
 			</Head>
 
 			<div className={styles.container}>
-				<h1>Projeto MTP</h1>
-				<img src="/logo.png" alt="Logo CEE" />
+				<img src="/images/aguia.svg" alt="Águia" />
 			</div>
 		</>
 	)

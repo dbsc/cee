@@ -5,7 +5,20 @@
 }
 
 :root {
-	--red: #f92d2d;
+	--white: #fff;
+
+	--gray-900: #212121;
+	--gray-300: #a8a8b3;
+	--gray-50: #efefef;
+
+	--red-800: #960618;
+	--red-500: #b62b35;
+	--red-200: #d23237;
+}
+
+body {
+	background: var(--gray-900);
+	color: var(--white);
 }
 
 body,
@@ -13,7 +26,7 @@ input,
 textarea,
 select,
 button {
-	font: 400 1rem 'Roboto', sans-serif;
+	font: 400 1rem 'Kanit', sans-serif;
 }
 
 button {
