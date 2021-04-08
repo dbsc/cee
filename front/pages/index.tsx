@@ -1,4 +1,8 @@
 import Head from 'next/head'
+import { Hero } from '../components/Hero'
+import { Numeros } from '../components/Numeros'
+import { Servicos } from '../components/Servicos'
+import { Parceiros } from '../components/Parceiros'
 
 import styles from '../styles/index.module.scss'
 export default function Home() {
@@ -8,9 +12,17 @@ export default function Home() {
 				<title>Início | CEE</title>
 			</Head>
 
-			<div className={styles.container}>
+			<Hero />
+
+			<Numeros />
+
+			<Servicos />
+
+			<Parceiros />
+
+			{/* <div className={styles.container}>
 				<img src="/images/aguia.svg" alt="Águia" />
-			</div>
+			</div> */}
 		</>
 	)
 }

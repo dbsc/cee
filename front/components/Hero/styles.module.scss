@@ -1,0 +1,60 @@
+.container {
+	height: 39rem;
+	background: var(--red-200);
+	color: var(--white);
+}
+
+.content {
+	max-width: 1120px;
+
+	height: 39rem;
+	margin: 0 auto;
+	padding: 0 2rem;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	img {
+		height: 15rem;
+	}
+
+	p {
+		font-size: 1.875rem;
+		text-align: center;
+		max-width: 1020px;
+		margin: 3rem auto;
+
+		span {
+			font-size: 2rem;
+			font-weight: 500;
+			font-style: italic;
+		}
+	}
+}
+
+.buttons {
+	a {
+		display: inline-block;
+		border: 1px solid var(--white);
+		border-radius: 5px;
+
+		width: 15rem;
+		padding: 1.5rem 0;
+
+		text-align: center;
+		font-size: 1.2rem;
+		font-weight: 500;
+
+		transition: all 0.5s;
+
+		& + a {
+			margin-left: 1rem;
+		}
+
+		&:hover {
+			background: var(--red-500);
+		}
+	}
+}

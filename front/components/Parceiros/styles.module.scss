@@ -1,0 +1,40 @@
+.container {
+	background: var(--gray-50);
+}
+
+.content {
+	max-width: 1120px;
+	margin: 0 auto;
+	padding: 3.5rem 2rem;
+
+	.title {
+		font-size: 2.25rem;
+		color: var(--gray-900);
+		position: relative;
+		line-height: 2.5rem;
+
+		margin: 0 0 1rem 1rem;
+
+		&::before {
+			content: '';
+			position: absolute;
+
+			width: 3px;
+			height: 100%;
+			bottom: 0;
+			left: -1rem;
+			background: var(--red-200);
+		}
+	}
+}
+
+.parceiros {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+
+	img {
+		width: 20rem;
+		margin-bottom: -3rem;
+	}
+}
