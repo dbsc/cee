@@ -9,8 +9,10 @@ def upload_location(instance, filename):
 
 class Vacancy(models.Model):
     name = models.CharField(max_length=150)
-    company = models.ForeignKey(Company, on_delete=models.PROTECT, blank=True, null=True)
-    field = models.ForeignKey('Field', on_delete=models.PROTECT, blank=True, null=True)
+    # company = models.ForeignKey(Company, on_delete=models.PROTECT, blank=True, null=True)
+    company = models.CharField(max_length=150)
+    # field = models.ForeignKey('Field', on_delete=models.PROTECT, blank=True, null=True)
+    field = models.CharField(max_length=150)
     position = models.CharField(max_length=100)
     # position = models.ForeignKey('Position', on_delete=models.PROTECT, blank=True, null=True)
     pay = models.PositiveIntegerField(null=True, blank=True)
