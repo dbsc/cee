@@ -10,4 +10,4 @@ def upload_location(instance, filename):
 
 class Company(models.Model):
     name = models.CharField(max_length=150)
-    image = models.ImageField(upload_to=upload_location)
+    image = models.ImageField(upload_to=upload_location, blank=True, null=True)
