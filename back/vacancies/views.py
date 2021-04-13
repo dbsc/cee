@@ -1,23 +1,18 @@
 # from rest_framework import generics
 from rest_framework import viewsets
 
-from .models import Vacancy, Requirement, Field
+from .models import SimpleVacancy, Vacancy, Requirement, Field
 from .serializers import (
-    VacancySerializer, RequirementSerializer, FieldSerializer
+    SimpleVacancySerializer, VacancySerializer, RequirementSerializer, FieldSerializer
 )
 
 
-# class VacancyList(generics.ListCreateAPIView):
-#     queryset = Vacancy.objects.all()
-#     serializer_class = VacancySerializer
-
-
-
-# class VacancyView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = Vacancy.objects.all()
-#     serializer_class = VacancySerializer
+class SimpleVacancyViewSet(viewsets.ModelViewSet):
+    queryset = SimpleVacancy.objects.all()
+    serializer_class = SimpleVacancySerializer
 
 
 class VacancyViewSet(viewsets.ModelViewSet):
     queryset = Vacancy.objects.all()
     serializer_class = VacancySerializer
+
