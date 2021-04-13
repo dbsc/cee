@@ -9,7 +9,6 @@ def upload_location(instance, filename):
     return 'images/vacancies/%s.%s' % (instance.name, extension)
 
 
-
 def file_size_validator(value):
     limit = 1024 * 1024 * 2
     if value.size > limit:
