@@ -9,21 +9,21 @@ def upload_location(instance, filename):
     return 'images/vacancies/%s.%s' % (instance.name, extension)
 
 
-def file_size_validator(limit):
-    def check_file_size(value):
-        if value.size > limit:
-            raise ValidationError("File size should not exceed 2 MiB")
-    return check_file_size(limit)
+
+def file_size_validator(value):
+    limit = 1024 * 1024 * 2
+    if value.size > limit:
+        raise ValidationError("File size can't exceed %.2f MiB" % limit / (1024 * 1024))
 
 
 class SimpleVacancy(models.Model):
     name = models.CharField(max_length=200)
     company = models.CharField(max_length=150)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     requirements = models.TextField(blank=True)
     expiration_date = models.DateField(blank=True, null=True)
     image = models.ImageField(upload_to=upload_location, blank=True, null=True)
-    file = models.FileField(upload_to=upload_location, blank=True, null=True, validators=file_size_validator(2 * 1024 * 1024))
+    file = models.FileField(upload_to=upload_location, blank=True, null=True, validators=[file_size_validator])
 
     def __str__(self):
         return self.name
