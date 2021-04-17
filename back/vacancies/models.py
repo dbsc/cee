@@ -1,28 +1,15 @@
-from os import name
-from django.core.exceptions import ValidationError
 from django.db import models
 from companies.models import Company
-
-
-def upload_location(instance, filename):
-    name, extension = filename.split('.')
-    return 'images/vacancies/%s.%s' % (instance.name, extension)
-
-
-def file_size_validator(value):
-    limit = 1024 * 1024 * 2
-    if value.size > limit:
-        raise ValidationError("File size can't exceed %.2f MiB" % limit / (1024 * 1024))
+from utils import UniqueFileName, FileSizeValidator
 
 
 class SimpleVacancy(models.Model):
     name = models.CharField(max_length=200)
     company = models.CharField(max_length=150)
     description = models.TextField(blank=True)
-    requirements = models.TextField(blank=True)
     expiration_date = models.DateField(blank=True, null=True)
-    image = models.ImageField(upload_to=upload_location, blank=True, null=True)
-    file = models.FileField(upload_to=upload_location, blank=True, null=True, validators=[file_size_validator])
+    file = models.FileField(upload_to=UniqueFileName('vacancies/simplevacancies'), blank=True, null=True, validators=[FileSizeValidator(2)])
+    created_at = models.DateField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -36,7 +23,8 @@ class Vacancy(models.Model):
     pay = models.PositiveIntegerField(null=True, blank=True)
     description = models.TextField(blank=True)
     expiration_date = models.DateField(blank=True, null=True)
-    image = models.ImageField(upload_to=upload_location, blank=True, null=True)
+    image = models.ImageField(upload_to=UniqueFileName('vacancies/images'), blank=True, null=True, validators=[FileSizeValidator(2)])
+    attachment = models.FileField(upload_to=UniqueFileName('vacancies/attachments'), blank=True, null=True, validators=[FileSizeValidator(2)])
     link = models.URLField(max_length=400, blank=True)
     requirements = models.ManyToManyField('Requirement')
 
