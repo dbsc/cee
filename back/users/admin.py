@@ -72,7 +72,7 @@ class CustomUserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'date_of_birth', 'password1', 'password2'),
+            'fields': ('email', 'password1', 'password2'),
         }),
     )
     search_fields = ('email',)
@@ -80,11 +80,6 @@ class CustomUserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
-# Now register the new UserAdmin...
 admin.site.register(CustomUser, CustomUserAdmin)
-# ... and, since we're not using Django's built-in permissions,
-# unregister the Group model from admin.
 admin.site.unregister(Group)
-
 admin.register(CustomUser, CustomUserAdmin)
-# Register your models here.
