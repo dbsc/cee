@@ -12,7 +12,7 @@ class UniqueFileName(object):
         self.path = join(path, "%s%s")
 
     def __call__(self, instance, filename):
-        name = slugify(str(instance)) + uuid4()
+        name = slugify(str(instance)) + str(uuid4())
         extension = splitext(filename)[1]
         return self.path % (name, extension)
 
@@ -23,8 +23,8 @@ class FileSizeValidator(object):
     def __init__(self, max_size):
         self.max_size = mb_to_bytes(max_size)
 
-    def __call__(self, size):
-        if size > self.max_size:
+    def __call__(self, file):
+        if file.size > self.max_size:
             raise ValidationError("File size cannot exceed %.2f", self.max_size_in_mb)
 
     @property
