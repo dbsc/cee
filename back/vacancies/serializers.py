@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import SimpleVacancy, Vacancy, Requirement, Field
+from .models import Position, SimpleVacancy, Vacancy, Requirement, Field
 
 
 class SimpleVacancySerializer(serializers.ModelSerializer):
@@ -23,4 +23,10 @@ class RequirementSerializer(serializers.ModelSerializer):
 class FieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = Field
+        fields = '__all__'
+
+
+class PositionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Position
         fields = '__all__'

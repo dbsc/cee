@@ -26,7 +26,7 @@ class Vacancy(models.Model):
     image = models.ImageField(upload_to=UniqueFileName('vacancies/images'), blank=True, null=True, validators=[FileSizeValidator(2)])
     attachment = models.FileField(upload_to=UniqueFileName('vacancies/attachments'), blank=True, null=True, validators=[FileSizeValidator(2)])
     link = models.URLField(max_length=400, blank=True)
-    requirements = models.ManyToManyField('Requirement')
+    requirements = models.ManyToManyField('Requirement', blank=True, null=True)
 
     def __str__(self):
         return self.name

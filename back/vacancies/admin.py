@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Vacancy, SimpleVacancy, Requirement, Field, Position
 
-# Register your models here.
+
+admin.site.register([
+    Vacancy, SimpleVacancy, Requirement, Field, Position
+])
