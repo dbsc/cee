@@ -1,4 +1,8 @@
-# Website CEE
+<div align="center">
+  <a href="https://www.ceeita.com/"><img src="https://raw.githubusercontent.com/dbsc/cee/main/front/public/logos/logo_red.svg?token=AQOTZZLDR5C76SSNMNI2PLTAQCHRU" alt="CEE" width="200"></a>
+</div>
+
+<h1 align=center>Website CEE</h1>
 
 ## Sobre o projeto
 ---
