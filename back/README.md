@@ -16,16 +16,14 @@ Para criar o ambiente virtual, digite o seguinte comando:
 
 Devemos também ativá-lo.
 
-No Linux e Mac:
-
     $ source env/bin/activate
-
-No Windows:
-
-    ./env/Script/activate.bat
 
 Agora podemos instalar todos os pacotes necessários:
 
     $ pip install -r requirements.txt
 
+Basta agora fazer a configuração da base de dados e executar o server.
 
+    $ python manage.py makemigrations
+    $ python manage.py migrate
+    $ python manage.py runserver
