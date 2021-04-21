@@ -5,7 +5,6 @@
 <h1 align=center>Website CEE</h1>
 
 ## Sobre o projeto
----
 
 O projeto mira a criação de um site com base de dados interna acessível a alunos do Instituto Tecnológico de Aeronáutica, e a automatização de uma série de processos, como, por exemplo, a publicação de uma vaga.
 
@@ -16,7 +15,6 @@ O projeto mira a criação de um site com base de dados interna acessível a alu
 - Next.js
 
 ## Instalação
----
 
 ### Prerequisitos
 
