@@ -23,7 +23,7 @@ O projeto mira a criação de um site com base de dados interna acessível a alu
 
 ### Setup
 
-1. Veja as instruções para o setup do [Back](back/README.md) e do [Front](front/cee/README.md).
+1. Veja as instruções para o setup do [Back](back/README.md) e do [Front](front/README.md).
 
 2. Precisamos agora executar o back e front em paralelo. Em uma linha de comando, digite:
 
