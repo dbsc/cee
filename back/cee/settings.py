@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     'users',
     'companies',
@@ -50,7 +51,6 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_auth.registration',
 
-    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -59,6 +59,8 @@ INSTALLED_APPS = [
     # 'allauth.socialaccount.providers.linkedin_oauth2',
 
     'drf_yasg',
+
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
