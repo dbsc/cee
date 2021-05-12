@@ -1,8 +1,26 @@
+from rest_framework.fields import ModelField
+from rest_framework.serializers import ModelSerializer
 from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible
 from django.utils.text import slugify
 from os.path import splitext, join
 from uuid import uuid4
+
+
+class DynamicFieldsModelSerializer(ModelSerializer):
+    """
+    A ModelSerializer that takes an additional `fields` argument that
+    controls which fields should be displayed.
+    """
+
+    def __init__(self, *args, **kwargs):
+        fields = kwargs.pop('fields', None)
+        super().__init__(*args, **kwargs)
+        if fields is not None:
+            allowed = set(fields)
+            existing = set(self.fields)
+            for field_name in existing - allowed:
+                self.fields.pop(field_name)
 
 
 @deconstructible
@@ -25,7 +43,7 @@ class FileSizeValidator(object):
 
     def __call__(self, file):
         if file.size > self.max_size:
-            raise ValidationError("File size cannot exceed %.2f", self.max_size_in_mb)
+            raise ValidationError("File size cannot exceed %.2fMiB" % self.max_size_in_mb)
 
     @property
     def max_size_in_mb(self):
