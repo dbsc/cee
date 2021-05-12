@@ -1,60 +1,100 @@
-from rest_framework import permissions
-from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from .models import (
-    SimpleVacancy, Skill, Vacancy, Requirement,
-    Field, Position, Tag, Responsability
+    SimpleVacancy, Vacancy, Requirement,
+    Position, Tag, Responsibility, Field
 )
 from .serializers import (
     SimpleVacancySerializer, VacancySerializer, RequirementSerializer,
-    FieldSerializer, PositionSerializer, SkillSerializer, TagSerializer,
-    ResponsabilitySerializer
+    FieldSerializer, PositionSerializer, TagSerializer,
+    ResponsibilitySerializer
 )
+from companies.serializers import CompanySerializer
 
 
-class SimpleVacancyViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+class SimpleVacancyViewSet(ModelViewSet):
+    # permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = SimpleVacancy.objects.all()
     serializer_class = SimpleVacancySerializer
 
 
-class VacancyViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+class VacancyViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Vacancy.objects.all()
     serializer_class = VacancySerializer
 
+    @action(detail=True)
+    def responsibilities(self, request, pk=None):
+        vacancy = self.get_object()
+        responsibilities = vacancy.responsibilities.all()
+        serializer = ResponsibilitySerializer(responsibilities, many=True, fields=['id', 'description'])
+        return Response(serializer.data)
 
-class RequirementViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    @action(detail=True)
+    def company(self, request, pk=None):
+        vacancy = self.get_object()
+        company = vacancy.company
+        serializer = CompanySerializer(company)
+        return Response(serializer.data)
+
+    @action(detail=True)
+    def requirements(self, request, pk=None):
+        vacancy = self.get_object()
+        requirements = vacancy.requirements.alL()
+        serializer = RequirementSerializer(requirements, many=True)
+        return Response(serializer.data)
+
+    @action(detail=True)
+    def tags(self, request, pk=None):
+        vacancy = self.get_object()
+        tags = vacancy.tags.all()
+        serializer = TagSerializer(tags, many=True)
+        return Response(serializer.data)
+
+    @action(detail=True)
+    def position(self, request, pk=None):
+        vacancy = self.get_object()
+        position = vacancy.position
+        serializer = PositionSerializer(position)
+        return Response(serializer.data)
+
+    @action(detail=True)
+    def field(self, request, pk=None):
+        vacancy = self.get_object()
+        field = vacancy.field
+        serializer = FieldSerializer(field)
+        return Response(serializer.data)
+
+
+
+class RequirementViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Requirement.objects.all()
     serializer_class = RequirementSerializer
 
 
-class FieldViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+class FieldViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Field.objects.all()
     serializer_class = FieldSerializer
 
 
-class PositionViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+class PositionViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Position.objects.all()
     serializer_class = PositionSerializer
 
 
-class SkillViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    queryset = Skill.objects.all()
-    serializer_class = SkillSerializer
-
-
-class TagViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+class TagViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
 
 
-class ResponsabilityViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    queryset = Responsability.objects.all()
-    serializer_class = ResponsabilitySerializer
+class ResponsibilityViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    queryset = Responsibility.objects.all()
+    serializer_class = ResponsibilitySerializer
