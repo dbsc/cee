@@ -10,6 +10,12 @@ class Company(models.Model):
         blank=True,
         null=True
     )
+    careers = models.URLField(
+        max_length=350,
+        blank=True,
+        null=True
+    )
+    # TODO: culture
 
     def __str__(self):
         return self.name
