@@ -1,61 +1,145 @@
 from rest_framework import serializers
+from django.utils.translation import gettext_lazy as _
 
-from companies.serializers import CompanySerializer
+from utils import DynamicFieldsModelSerializer
+
 from .models import (
-    Position, Responsability, SimpleVacancy, Skill,
+    Position, Responsibility, SimpleVacancy,
     Tag, Vacancy, Requirement, Field
 )
-
-
-class SimpleVacancySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SimpleVacancy
-        fields = '__all__'
-
-
-class VacancySerializer(serializers.ModelSerializer):
-    requirements = serializers.StringRelatedField(many=True)
-    company = CompanySerializer()
-    field = serializers.StringRelatedField()
-    position = serializers.StringRelatedField()
-    tags = serializers.StringRelatedField(many=True)
-
-    class Meta:
-        model = Vacancy
-        fields = '__all__'
+from .fields import (
+    FieldField, RequirementNestedField, ResponsibilityListField,
+    TagField, PositionField
+)
 
 
 class RequirementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Requirement
-        fields = '__all__'
+        fields = ['id', 'description', 'vacancy', 'minimum', 'preferred']
+
+    def validate(self, data):
+        """Check that preferred and minimum are not both True"""
+        if data['minimum'] and data['preferred']:
+            raise serializers.ValidationError(
+                'minimum and preferred cannot both be true'
+            )
+        return data
 
 
 class FieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = Field
-        fields = '__all__'
+        fields = ['id', 'name']
 
 
 class PositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Position
-        fields = '__all__'
+        fields = ['id', 'name']
 
 
-class SkillSerializer(serializers.ModelSerializer):
+class ResponsibilitySerializer(DynamicFieldsModelSerializer):
     class Meta:
-        model = Skill
-        fields = '__all__'
-
-
-class ResponsabilitySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Responsability
-        fields = '__all__'
+        model = Responsibility
+        fields = ['id', 'description', 'vacancy']
 
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = '__all__'
+        fields = ['id', 'name']
+
+
+class VacancySerializer(serializers.ModelSerializer):
+    tags = TagField(
+        many=True,
+        help_text='Optional tags for the vacancy.'
+    )
+    position = PositionField(
+        allow_null=True,
+        help_text="The vacancy's position."
+    )
+    responsibilities = ResponsibilityListField(
+        help_text="The vacancy's listed responsibilities."
+    )
+    requirements = RequirementNestedField(
+        help_text="The list of requirements. Each requirement can be minimum, preferred or none."
+    )
+    field = FieldField(
+        allow_null=True,
+        help_text="The vacancy's working field."
+    )
+
+    class Meta:
+        model = Vacancy
+        fields = [
+            'id',
+            'title',
+            'company',
+            'description',
+            'requirements',
+            'responsibilities',
+            'field',
+            'position',
+            'tags',
+            'pay',
+            'link',
+            'expiration_date',
+            'image',
+            'attachment',
+        ]
+
+    def create(self, validated_data):
+        responsibilities_data = validated_data.pop('responsibilities')
+        requirements_data = validated_data.pop('requirements')
+        field_data = validated_data.pop('field')
+        tags_data = validated_data.pop('tags')
+        position_data = validated_data.pop('position')
+        vacancy = super().create(validated_data)
+        field, created = Field.objects.get_or_create(**field_data)
+        field.vacancy_set.add(vacancy)
+        position, created = Position.objects.get_or_create(**position_data)
+        position.vacancy_set.add(vacancy)
+        for responsibility_data in responsibilities_data:
+            vacancy.responsibilities.create(**responsibility_data)
+        for requirement_data in requirements_data:
+            vacancy.requirements.create(**requirement_data)
+        for tag_data in tags_data:
+            tag, created = Tag.objects.get_or_create(**tag_data)
+            if not vacancy.tags.filter(pk=tag.pk).exists():
+                vacancy.tags.add(tag)
+        return vacancy
+
+    def update(self, instance, validated_data):
+        for responsibility_data in validated_data.pop('responsibilities', []):
+            instance.responsibilities.get_or_create(**responsibility_data)
+        for requirement_data in validated_data.pop('requirements', []):
+            instance.requirements.get_or_create(**requirement_data)
+        for tag_data in validated_data.pop('tags', []):
+            tag, created = Tag.objects.get_or_create(**tag_data)
+            if not instance.tags.filter(pk=tag.pk).exists():
+                instance.tags.add(tag)
+        if 'field' in validated_data:
+            field_data = validated_data.pop('field')
+            field, created = Field.objects.get_or_create(**field_data)
+            instance.field = field
+        if 'position' in validated_data:
+            position_data = validated_data.pop('position')
+            position, created = Position.objects.get_or_create(**position_data)
+            instance.position = position
+        return super().update(instance, validated_data)
+
+
+class SimpleVacancySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SimpleVacancy
+        fields = [
+            'id',
+            'title',
+            'company',
+            'description',
+            'expiration_date',
+            'attachment',
+            'created_at',
+        ]
