@@ -1,14 +1,9 @@
 from collections import OrderedDict
 from typing import get_args
-from django.db.models.fields import CharField
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
-from rest_framework.fields import ListField
-from rest_framework.relations import StringRelatedField
+from rest_framework.exceptions import ValidationError
 from .models import Field, Position, Requirement, Responsibility, Tag, Vacancy
-
-# 3 possibilidades: relatedfield, listfield ou serializer.
-
 
 class FieldField(serializers.CharField, serializers.RelatedField):
 
@@ -25,6 +20,16 @@ class FieldField(serializers.CharField, serializers.RelatedField):
     def get_queryset(self):
         return Field.objects.all()
 
+    def run_validation(self, data):
+        if data == '' or (self.trim_whitespace and str(data).strip() == ''):
+            if not self.allow_blank:
+                self.fail('blank')
+        return serializers.Field.run_validation(self, data)
+
+    def to_internal_value(self, data):
+        name = super().to_internal_value(data)
+        return {"name": name}
+
 
 class TagField(serializers.CharField, serializers.RelatedField):
 
@@ -38,6 +43,10 @@ class TagField(serializers.CharField, serializers.RelatedField):
 
     def get_queryset(self):
         return Tag.objects.all()
+
+    def to_internal_value(self, data):
+        name = super().to_internal_value(data)
+        return {"name": name}
 
 
 class TagListField(serializers.ListField):
@@ -68,62 +77,15 @@ class PositionField(serializers.CharField, serializers.RelatedField):
     def get_queryset(self):
         return Position.objects.all()
 
-
-class TagRelatedField(serializers.RelatedField):
-    default_error_messages = {
-        'incorrect_type': _('Incorrect type. Expected string, got {data_type}'),
-        'blank': _('This field may not be blank')
-    }
-
-    def to_internal_value(self, data):
-        if not isinstance(data, str):
-            raise self.fail('incorrect_type', data_type=type(data).__name__)
-        if data == '':
-            self.fail('blank')
-        return {"name": data}
-
-    def to_representation(self, value):
-        return str(value)
-
-    def get_queryset(self):
-        return Tag.objects.all()
-
-
-class FieldRelatedField(serializers.RelatedField):
-    default_error_messages = {
-        'incorrect_type': _('Incorrect type. Expected string, got {data_type}'),
-        'blank': _('This field may not be blank')
-    }
+    def run_validation(self, data):
+        if data == '' or (self.trim_whitespace and str(data).strip() == ''):
+            if not self.allow_blank:
+                self.fail('blank')
+        return serializers.Field.run_validation(self, data)
 
     def to_internal_value(self, data):
-        if not isinstance(data, str):
-            raise self.fail('incorrect_type', data_type=type(data).__name__)
-        if data == '':
-            self.fail('blank')
-        return {"name": data}
-
-    def to_representation(self, value):
-        return str(value)
-
-
-class ResponsibilityRelatedField(serializers.RelatedField):
-    default_error_messages = {
-        'incorrect_type': _('Incorrect type. Expected string, got {data_type}'),
-        'blank': _('This field may not be blank')
-    }
-
-    def to_internal_value(self, data):
-        if not isinstance(data, str):
-            raise self.fail('incorrect_type', data_type=type(data).__name__)
-        if data == '':
-            self.fail('blank')
-        return {"description": data}
-
-    def to_representation(self, value):
-        return str(value)
-
-    def get_queryset(self):
-        return Responsibility.objects.all()
+        name = super().to_internal_value(data)
+        return {"name": name}
 
 
 class ResponsibilityListField(serializers.ListField):
@@ -136,6 +98,10 @@ class ResponsibilityListField(serializers.ListField):
     def to_representation(self, data):
         queryset = data.all()
         return super().to_representation(queryset)
+
+    def to_internal_value(self, data):
+        data = super().to_internal_value(data)
+        return [{"description": description} for description in data]
 
 
 class PositionRelatedField(serializers.RelatedField):
@@ -158,19 +124,18 @@ class PositionRelatedField(serializers.RelatedField):
         return Responsibility.objects.all()
 
 
-class RequirementListField(serializers.ListField):
-
-    def __init__(self, *args, **kwargs):
-        max_length = Requirement._meta.get_field('description').max_length
-        kwargs['child'] = serializers.CharField(max_length=max_length)
-        super().__init__(*args, **kwargs)
-
-    def to_representation(self, data):
-        queryset = data.all()
-        return super().to_representation(queryset)
-
-
 class RequirementNestedField(serializers.Serializer):
+
+    class InnerList(serializers.ListField):
+
+        def __init__(self, cls, field_name, *args, **kwargs):
+            max_length = cls._meta.get_field(field_name).max_length
+            kwargs['child'] = serializers.CharField(max_length=max_length)
+            super().__init__(*args, **kwargs)
+            self.target_field = field_name
+
+        def to_representation(self, data):
+            return super().to_representation(data)
 
     class MinimumListField(serializers.ListField):
 
@@ -197,40 +162,26 @@ class RequirementNestedField(serializers.Serializer):
     preferred = PreferredListField(required=False)
     none = NoneListField(required=False)
 
-    def to_representation(self, instance):
-        ret = OrderedDict()
-        for name, field in self.get_fields().items():
-            representation = field.to_representation(getattr(instance, name)())
-            if representation:
-                ret[name] = representation
-        return ret
+    class Meta:
+        fields = ['minimum', 'preferred', 'none']
+        # extra_kwargs = {
+        #     'minimum': {'required': False},
+        #     'preferred': {'required': False},
+        #     'none': {'required': False},
+        # }
+        # validators = []
 
-
-class RequirementRelatedField(serializers.RelatedField):
-    default_error_messages = {
-        'incorrect_type': _('Incorrect type. Expected string, got {data_type}'),
-        'blank': _('This field may not be blank')
-    }
+    # def to_representation(self, instance):
+    #     ret = OrderedDict()
+    #     for name, field in self.get_fields().items():
+    #         queryset = getattr(instance, name)()
+    #         representation = field.to_representation(queryset)
+    #         if representation:
+    #             ret[name] = representation
+    #     return ret
 
     def to_internal_value(self, data):
-        if not isinstance(data, str):
-            raise self.fail('incorrect_type', data_type=type(data).__name__)
-        if data == '':
-            self.fail('blank')
-        return {"description": data}
-
-    def to_representation(self, value):
-        return str(value)
-
-    def get_queryset(self):
-        return Responsibility.objects.all()
-
-
-class RequirementsField(serializers.Field):
-    default_error_messages = {
-        'incorrect_type': _('Incorrect type. Expected string, got {data_type}'),
-        'blank': _('This field may not be blank')
-    }
+        return super().to_internal_value(data)
 
     def to_internal_value(self, data):
         def requirement_data(description, minimum=False, preferred=False):
@@ -239,30 +190,15 @@ class RequirementsField(serializers.Field):
                 "minimum": minimum,
                 "preferred": preferred
             }
+        data = super().to_internal_value(data)
         minimum = data.get('minimum', [])
         preferred = data.get('preferred', [])
         none = data.get('none', [])
         requirements = []
         for description in minimum:
-            requirement = requirement_data(description, minimum=True)
-            requirements.append(requirement)
+            requirements.append(requirement_data(description, minimum=True))
         for description in preferred:
-            requirement = requirement_data(description, preferred=True)
-            requirements.append(requirement)
+            requirements.append(requirement_data(description, preferred=True))
         for description in none:
-            requirement = requirement_data(description)
-            requirements.append(requirement)
+            requirements.append(requirement_data(description))
         return requirements
-
-    def to_representation(self, value):
-        minimum = value.filter(minimum=True)
-        preferred = value.filter(preferred=True)
-        none = value.filter(minimum=False, preferred=False)
-        ret = OrderedDict()
-        if minimum:
-            ret['minimum'] = [str(obj) for obj in minimum]
-        if preferred:
-            ret['preferred'] = [str(obj) for obj in preferred]
-        if none:
-            ret['none'] = [str(obj) for obj in none]
-        return ret
