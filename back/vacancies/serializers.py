@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
-
-from utils import DynamicFieldsModelSerializer
+from rest_framework.exceptions import ValidationError
 
 from .models import (
     Position, Responsibility, SimpleVacancy,
@@ -11,6 +10,7 @@ from .fields import (
     FieldField, RequirementNestedField, ResponsibilityListField,
     TagField, PositionField
 )
+from utils import DynamicFieldsModelSerializer
 
 
 class RequirementSerializer(serializers.ModelSerializer):
@@ -22,8 +22,7 @@ class RequirementSerializer(serializers.ModelSerializer):
         """Check that preferred and minimum are not both True"""
         if data['minimum'] and data['preferred']:
             raise serializers.ValidationError(
-                'minimum and preferred cannot both be true'
-            )
+                'minimum and preferred cannot both be true')
         return data
 
 
@@ -70,7 +69,6 @@ class VacancySerializer(serializers.ModelSerializer):
         allow_null=True,
         help_text="The vacancy's working field."
     )
-
     class Meta:
         model = Vacancy
         fields = [
@@ -129,6 +127,29 @@ class VacancySerializer(serializers.ModelSerializer):
             position, created = Position.objects.get_or_create(**position_data)
             instance.position = position
         return super().update(instance, validated_data)
+
+    def validate_requirements(self, value):
+        try:
+            requirements = self.instance.requirements
+        except AttributeError:
+            pass
+        else:
+            for requirement in value:
+                description = requirement['description']
+                if requirements.filter(description=description).exists():
+                    raise ValidationError('Cannot have duplicated requirement.')
+        return value
+
+    def validate_responsibilities(self, value):
+        try:
+            responsibilities = self.instance.responsibilities
+        except AttributeError:
+            pass
+        else:
+            for description in value:
+                if responsibilities.filter(description=description).exists():
+                    raise ValidationError('Cannot have duplicated responsibility.')
+        return value
 
 
 class SimpleVacancySerializer(serializers.ModelSerializer):
