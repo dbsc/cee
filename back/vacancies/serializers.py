@@ -3,12 +3,12 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework.exceptions import ValidationError
 
 from .models import (
-    Position, Responsibility, SimpleVacancy,
+    Location, Position, Responsibility, SimpleVacancy,
     Tag, Vacancy, Requirement, Field
 )
 from .fields import (
     FieldField, RequirementNestedField, ResponsibilityListField,
-    TagField, PositionField
+    TagField, PositionField, LocationField
 )
 from utils import DynamicFieldsModelSerializer
 
@@ -50,6 +50,19 @@ class TagSerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 
+class LocationSerializer(DynamicFieldsModelSerializer):
+    class Meta:
+        model = Location
+        fields = ['id', 'city', 'state']
+
+    def validate_city(self, value):
+        words = [word.capitalize() for word in value.split()]
+        return ' '.join(words)
+
+    def validate_state(self, value):
+        return value.upper()
+
+
 class VacancySerializer(serializers.ModelSerializer):
     tags = TagField(
         many=True,
@@ -69,6 +82,16 @@ class VacancySerializer(serializers.ModelSerializer):
         allow_null=True,
         help_text="The vacancy's working field."
     )
+    # location = LocationField(
+    #     allow_null=True,
+    #     help_text='The location of the job.'
+    # )
+    location = LocationSerializer(
+        fields=['city', 'state'],
+        allow_null=True,
+        help_text='The location of the job.'
+    )
+
     class Meta:
         model = Vacancy
         fields = [
@@ -86,19 +109,25 @@ class VacancySerializer(serializers.ModelSerializer):
             'expiration_date',
             'image',
             'attachment',
+            'remote',
+            'location',
+            'featured',
         ]
 
     def create(self, validated_data):
+        field_data = validated_data.pop('field')
+        position_data = validated_data.pop('position')
+        location_data = validated_data.pop('location')
         responsibilities_data = validated_data.pop('responsibilities')
         requirements_data = validated_data.pop('requirements')
-        field_data = validated_data.pop('field')
         tags_data = validated_data.pop('tags')
-        position_data = validated_data.pop('position')
         vacancy = super().create(validated_data)
         field, created = Field.objects.get_or_create(**field_data)
         field.vacancy_set.add(vacancy)
         position, created = Position.objects.get_or_create(**position_data)
         position.vacancy_set.add(vacancy)
+        location, created = Location.objects.get_or_create(**location_data)
+        location.vacancy_set.add(vacancy)
         for responsibility_data in responsibilities_data:
             vacancy.responsibilities.create(**responsibility_data)
         for requirement_data in requirements_data:
