@@ -81,14 +81,31 @@ class Vacancy(models.Model):
         default=True,
         help_text="Instead of deleting the vacancy, just set this field to false."
     )
-    # TODO: location or remote
-    # TODO: email para mandar
+    featured = models.BooleanField(
+        default=False,
+        help_text="Whether this is a featured vacancy."
+    )
+    remote = models.BooleanField(
+        default=False,
+        help_text='Whether this is a remote job.'
+    )
+    location = models.ForeignKey(
+        'Location',
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        help_text='The location of the remote job.'
+    )
 
     class Meta:
         verbose_name_plural = 'vacancies'
 
     def __str__(self):
         return self.title
+
+    def clean(self):
+        if not self.location and not self.remote:
+            raise ValidationError('Job must be either remote or have a location.')
 
     @property
     def is_active(self):
@@ -137,6 +154,7 @@ class Requirement(models.Model):
         default=False,
         help_text='Denotes whether this is a preferred requirement.'
     )
+
     objects = RequirementQuerySet.as_manager()
 
     class Meta:
@@ -147,11 +165,11 @@ class Requirement(models.Model):
 
     @property
     def none(self):
-        """Returns False if requirement is minimum or preferred, True otherwise"""
+        """False if requirement is minimum or preferred, true otherwise."""
         return not self.minimum and not self.preferred
 
     def clean(self):
-        super().clean()
+        """Make sure that a requirement can't be both minimum and preferred."""
         if self.minimum and self.preferred:
             raise ValidationError(
                 "Requirement's minimum and preferred fields cannot both be true."
@@ -165,7 +183,11 @@ class Requirement(models.Model):
 
 class Tag(models.Model):
     """Stores a single tag, related to :model:`vacancies.Vacancy`."""
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(
+        max_length=100,
+        unique=True,
+        help_text='The name of the tag.'
+    )
 
     class Meta:
         ordering = ['name']
@@ -216,23 +238,54 @@ class Position(models.Model):
 
 
 class SimpleVacancy(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    company = models.CharField(max_length=150)
+    title = models.CharField(
+        max_length=200,
+        help_text="The vacancy's title."
+    )
+    description = models.TextField(
+        help_text="The vacancy's description."
+    )
+    company = models.CharField(
+        max_length=150,
+        help_text='The company that is providing the vacancy.'
+    )
     expiration_date = models.DateField(
         blank=True,
-        null=True
+        null=True,
+        help_text='Date at which the vacancy will expire.'
     )
     attachment = models.FileField(
         upload_to=UniqueFileName('vacancies/simplevacancies'),
         validators=[FileSizeValidator(2)],
         blank=True,
-        null=True
+        null=True,
+        help_text='Optional attachment.'
     )
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(
+        auto_now=True,
+        help_text='Date of creation.'
+    )
 
     class Meta:
         verbose_name_plural = "simple vacancies"
 
     def __str__(self):
         return self.name
+
+
+class Location(models.Model):
+    """Location consisting of city and state."""
+    city = models.CharField(
+        max_length=250,
+        help_text='Name of the city.'
+    )
+    state = models.CharField(
+        max_length=250,
+        help_text='Shortened name of the state.'
+    )
+
+    class Meta:
+        unique_together = ['state', 'city']
+
+    def __str__(self):
+        return f'{self.city} - {self.state}'
