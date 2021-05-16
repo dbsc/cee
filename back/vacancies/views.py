@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from .models import (
-    SimpleVacancy, Vacancy, Requirement,
+    Location, SimpleVacancy, Vacancy, Requirement,
     Position, Tag, Responsibility, Field
 )
 from .serializers import (
@@ -111,4 +111,10 @@ class TagViewSet(ModelViewSet):
 class ResponsibilityViewSet(ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Responsibility.objects.all()
+    serializer_class = ResponsibilitySerializer
+
+
+class LocationViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    queryset = Location.objects.all()
     serializer_class = ResponsibilitySerializer
