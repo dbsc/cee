@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework import routers
 from .views import (
-    FieldViewSet, PositionViewSet, RequirementViewSet,
+    FieldViewSet, LocationViewSet, PositionViewSet, RequirementViewSet,
     SimpleVacancyViewSet, VacancyViewSet, TagViewSet,
     ResponsibilityViewSet
 )
@@ -14,6 +14,7 @@ router.register(r'fields', FieldViewSet)
 router.register(r'positions', PositionViewSet)
 router.register(r'tags', TagViewSet)
 router.register(r'responsibilities', ResponsibilityViewSet)
+router.register(r'locations', LocationViewSet)
 
 urlpatterns = [
     path('', include(router.urls))
