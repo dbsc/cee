@@ -5,7 +5,7 @@ export default function DivulgarVagaITA() {
 	return (
 		<>
 			<Head>
-				<title>Divuldar Vaga | CEE</title>
+				<title>Divulgar Vaga | CEE</title>
 			</Head>
 			<div className={styles.container}>
 				<h1>Divulgar Vaga no ITA</h1>
