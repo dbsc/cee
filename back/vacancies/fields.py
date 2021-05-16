@@ -1,9 +1,7 @@
-from collections import OrderedDict
-from typing import get_args
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
-from rest_framework.exceptions import ValidationError
-from .models import Field, Position, Requirement, Responsibility, Tag, Vacancy
+from .models import Field, Position, Requirement, Responsibility, Tag
+
 
 class FieldField(serializers.CharField, serializers.RelatedField):
 
@@ -11,7 +9,7 @@ class FieldField(serializers.CharField, serializers.RelatedField):
         kwargs.update(
             max_length=Field.name.field.max_length,
             # allow_blank = Field.name.field.blank
-            allow_blank=Vacancy.field.field.blank  # TODO: remove this
+            allow_blank=True  # TODO: remove this
         )
         many = kwargs.pop('many', False)
         serializers.RelatedField.__init__(self, many=many)
@@ -164,21 +162,6 @@ class RequirementNestedField(serializers.Serializer):
 
     class Meta:
         fields = ['minimum', 'preferred', 'none']
-        # extra_kwargs = {
-        #     'minimum': {'required': False},
-        #     'preferred': {'required': False},
-        #     'none': {'required': False},
-        # }
-        # validators = []
-
-    # def to_representation(self, instance):
-    #     ret = OrderedDict()
-    #     for name, field in self.get_fields().items():
-    #         queryset = getattr(instance, name)()
-    #         representation = field.to_representation(queryset)
-    #         if representation:
-    #             ret[name] = representation
-    #     return ret
 
     def to_internal_value(self, data):
         return super().to_internal_value(data)
@@ -202,3 +185,7 @@ class RequirementNestedField(serializers.Serializer):
         for description in none:
             requirements.append(requirement_data(description))
         return requirements
+
+
+class LocationField(serializers.Serializer):
+    pass
