@@ -96,6 +96,7 @@ class Vacancy(models.Model):
         on_delete=models.PROTECT,
         help_text='The location of the remote job.'
     )
+    # TODO: when and duration
 
     class Meta:
         verbose_name_plural = 'vacancies'
