@@ -7,15 +7,21 @@ class Company(models.Model):
     logo = models.ImageField(
         upload_to=UniqueFileName('companies/logos'),
         validators=[FileSizeValidator(2)],
-        blank=True,
         null=True
     )
     careers = models.URLField(
         max_length=350,
         blank=True,
-        null=True
+    )
+    featured = models.BooleanField(
+        blank=True,
+        null=True,
+        default=False
     )
     # TODO: culture
+
+    class Meta:
+        verbose_name_plural = "companies"
 
     def __str__(self):
         return self.name
