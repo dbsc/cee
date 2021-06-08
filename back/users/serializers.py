@@ -7,6 +7,7 @@ from django.conf import settings
 
 class CustomUserDetailsSerializer(UserDetailsSerializer):
     class Meta:
+        model = UserDetailsSerializer.Meta.model
         fields = ['pk']
         read_only_fields = ['email']
 
