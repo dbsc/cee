@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,26 +41,34 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    # project apps
     'users',
     'companies',
     'events',
     'vacancies',
+    'social',
 
+    # rest framework
     'rest_framework',
     'rest_framework.authtoken',
 
-    'rest_auth',
-    'rest_auth.registration',
+    # authentication
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
 
+    # social login
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    # 'allauth.socialaccount.providers.facebook',
-    # 'allauth.socialaccount.providers.linkedin_oauth2',
 
+    # schema generation
     'drf_yasg',
 
+    # filtering
+    'django_filters',
+
+    # extensions
     'django_extensions',
 ]
 
@@ -93,6 +102,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cee.wsgi.application'
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -108,21 +118,6 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
-
-# LOGIN_REDIRECT_URL = '/'
-
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        },
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -174,10 +169,56 @@ SITE_ID = 1
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-    ]
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+    ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100,
 }
+
+REST_USE_JWT = True
+JWT_AUTH_COOKIE = 'test-auth'
+JWT_AUTH_REFRESH_COOKIE = 'cee-refresh-token'
+
+LOGIN_REDIRECT_URL = '/users/'
+
+# Allauth configuration
+
+# eliminate username field
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+
+# make email verification mandatory
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+
+# other settings
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+
+# eliminate username field from serializers
+REST_AUTH_SERIALIZERS = {
+    'LOGIN_SERIALIZER': 'users.serializers.CustomLoginSerializer',
+    'USER_DETAILS_SERIALIZER': 'users.serializers.CustomUserDetailsSerializer',
+}
+
+# eliminate username field from serializers
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSerializer',
+}
+
+# permission class on registration
+REST_AUTH_REGISTER_PERMISSION_CLASSES = [
+    'rest_framework.permissions.AllowAny',
+]
+
+# ACCOUNT_ADAPTER = 'users.adapter.RestrictEmailAdapter'
