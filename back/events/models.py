@@ -1,8 +1,34 @@
 from django.db import models
+from django.db.models.query import QuerySet
 from companies.models import Company
 from vacancies.models import Field, Tag
 from datetime import timedelta
 from django.utils import timezone
+from django.db.models import F
+
+
+class EventQuerySet(QuerySet):
+    """Custom Event Queryset"""
+
+    def upcoming(self):
+        return self.filter(datetime__lt=timezone.now()).order_by('datetime')
+
+    def now(self):
+        return self.filter(
+            datetime__lte=timezone.now(),
+            datetime__gte=timezone.now() - F('duration')
+        ).order_by('datetime')
+
+    def past(self):
+        return self.filter(
+            datetime__lt=timezone.now() - F('duration')
+        ).order_by('datetime')
+
+    def today(self):
+        return self.filter(
+            datetime__today=timezone.now().day,
+            datetime__gte=timezone.now() - F('duration')
+        ).order_by('datetime')
 
 
 class Event(models.Model):
@@ -56,6 +82,30 @@ class Event(models.Model):
         blank=True,
         help_text='The location of the event.'
     )
+    featured = models.BooleanField(
+        default=False,
+        blank=False,
+        help_text="Whether the event is more important than others."
+    )
+
+    objects = EventQuerySet.as_manager()
+
+    def upcoming(self):
+        """Whether this is an upcoming event."""
+        return timezone.now() < self.datetime
 
     def will_happen_soon(self, time_interval=timedelta(weeks=1)):
+        """Whether this event will happen soon."""
         return self.datetime <= timezone.now() + time_interval
+
+    def already_happened(self):
+        """Whether this event already happened."""
+        return self.datetime + self.duration < timezone.now()
+
+    def is_happening(self):
+        """Whether this event is happening right now."""
+        return self.datetime <= timezone.now() <= self.datetime + self.duration
+
+    def will_happen_today(self):
+        """Whether this event will happen today."""
+        return self.datetime.day == timezone.now().day
