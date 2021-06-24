@@ -17,7 +17,7 @@ export function Header() {
 					<ActiveLink activeClassName={styles.active} href="/quem-somos">
 						<a>Quem Somos</a>
 					</ActiveLink>
-					<ActiveLink activeClassName={styles.active} href="/divulgar-vaga-no-ITA">
+					<ActiveLink activeClassName={styles.active} href="https://forms.gle/V3oNNjSKr5ZnQtQT8">
 						<a>Divulgar Vaga no ITA</a>
 					</ActiveLink>
 					<ActiveLink activeClassName={styles.active} href="/contato">

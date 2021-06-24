@@ -1,0 +1,33 @@
+.container {
+	background: var(--gray-900);
+	height: 13rem;
+}
+
+.content {
+	.title {
+
+		h1 {
+			font-size: 2.5rem;
+			color: var(--white);
+			padding-top: 5rem;
+			text-align: right;
+			margin-right: 20rem;
+		}
+
+		&::before {
+			content: '';
+			position: absolute;
+
+			right: 18rem;
+			width: 3px;
+			height: 3rem;
+			top: 10.5rem;
+			background: var(--red-200);
+		}
+		img {
+			float:left;
+			position:relative;
+			height: 13em;
+		}
+	}
+}

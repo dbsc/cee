@@ -20,7 +20,9 @@ export function Hero() {
 				</p>
 				<div className={styles.buttons}>
 					{botao}
-					<button>Divulgar vaga no ITA</button>
+					<button type="button" onClick={(e) => {e.preventDefault(); 
+						window.location.href='https://forms.gle/V3oNNjSKr5ZnQtQT8'}}>
+						Divulgar vaga no ITA</button>
 				</div>
 			</div>
 		</div>

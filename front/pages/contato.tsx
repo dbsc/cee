@@ -1,5 +1,6 @@
 import Head from 'next/head'
-import styles from '../styles/contato.module.scss'
+import { ContatoTitle } from '../components/ContatoTitle'
+import { FormsRedes } from '../components/FormsRedes'
 
 export default function Contato() {
 	return (
@@ -7,9 +8,8 @@ export default function Contato() {
 			<Head>
 				<title>Contato | CEE</title>
 			</Head>
-			<div className={styles.container}>
-				<h1>Contato</h1>
-			</div>
+			<ContatoTitle />
+			<FormsRedes />
 		</>
 	)
 }

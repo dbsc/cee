@@ -1,0 +1,111 @@
+.container {
+	background: var(--white);
+}
+
+.content {
+
+	width: 100%;
+	margin: 0 auto;
+
+	.Section {
+		position: relative;
+		height: 7rem;
+		background-color: var(--gray-900);
+		font-size: 2rem;
+		color: var(--white);
+		padding-right: 10rem;
+		padding-top: 2rem;
+		text-align: right;
+		margin-right: 0;
+	}
+
+	&::after {
+		content: '';
+		position: absolute;
+
+		top: 124rem;
+		right: 9rem;
+		width: 3px;
+		height: 3rem;
+		background: var(--red-200);
+	}
+
+	.oportunidades {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		margin-top: 2rem;
+
+		h2 {
+			background-color: var(--red-200);
+			color: var(--white);
+			font-weight: 600;
+			font-size: 1.875rem;
+			text-align: center;
+			border-radius: 10px;
+		}
+
+		p {
+			font-size: 1.4rem;
+			margin-top: 1rem;
+		}
+
+		.left {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
+
+			text-align: center;
+			width: 33rem;
+			padding-right: 6rem;
+			border-right: 1.5px solid var(--gray-900);
+
+			.a {
+				margin: 5rem 0;
+			}
+
+			.b {
+				margin: 5rem 0;
+			}
+		}
+		.right {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			text-align: center;
+			width: 33rem;
+			padding-left: 6rem;
+			border-left: 1.5px solid var(--gray-900);
+
+			.c {
+				margin: 0 0 5rem;
+			}
+
+			.d {
+				margin: 0 0 5rem;
+			}
+		}
+
+		.box {
+			width: 27rem;
+		}
+	}
+
+}
+
+.title {
+
+	font-size: 2.25rem;
+	color: var(--white);
+	position: relative;
+	line-height: 2.5rem;
+
+	width: 100%;
+	height: 8rem;
+
+	text-align: center;
+	padding-top: 2.6rem;
+
+	background-color: var(--red-200);
+
+}
