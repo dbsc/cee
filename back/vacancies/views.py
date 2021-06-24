@@ -32,15 +32,16 @@ class VacancyViewSet(ModelViewSet):
 
     @action(detail=True)
     def responsibilities(self, request, pk=None):
-        """List all the responsibilities regarding the vacancy"""
+        """List all the responsibilities regarding the vacancy."""
         vacancy = self.get_object()
         responsibilities = vacancy.responsibilities.all()
-        serializer = ResponsibilitySerializer(responsibilities, many=True, fields=['id', 'description'])
+        serializer = ResponsibilitySerializer(
+            responsibilities, many=True, fields=['id', 'description'])
         return Response(serializer.data)
 
     @action(detail=True)
     def company(self, request, pk=None):
-        """Detail of vacancy's company"""
+        """Detail of vacancy's company."""
         vacancy = self.get_object()
         company = vacancy.company
         serializer = CompanySerializer(company)
@@ -48,7 +49,7 @@ class VacancyViewSet(ModelViewSet):
 
     @action(detail=True, methods=['GET', 'POST'])
     def requirements(self, request, pk=None):
-        """List all the vacancy's requirements, or create new requirements"""
+        """List all the vacancy's requirements, or create new requirements."""
         if request.method == 'GET':
             vacancy = self.get_object()
             requirements = vacancy.requirements.all()
@@ -59,11 +60,18 @@ class VacancyViewSet(ModelViewSet):
             serializer = RequirementNestedField(data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                return Response(serializer.data, status=HTTP_201_CREATED)
-            return Response(serializer.error, status=HTTP_400_BAD_REQUEST)
+                return Response(
+                    serializer.data,
+                    status=HTTP_201_CREATED
+                )
+            return Response(
+                serializer.error,
+                status=HTTP_400_BAD_REQUEST
+            )
 
     @action(detail=True)
     def tags(self, request, pk=None):
+        """The tags of the vacancy."""
         vacancy = self.get_object()
         tags = vacancy.tags.all()
         serializer = TagSerializer(tags, many=True)
@@ -71,6 +79,7 @@ class VacancyViewSet(ModelViewSet):
 
     @action(detail=True)
     def position(self, request, pk=None):
+        """The vacancy's position."""
         vacancy = self.get_object()
         position = vacancy.position
         serializer = PositionSerializer(position)
@@ -78,6 +87,7 @@ class VacancyViewSet(ModelViewSet):
 
     @action(detail=True, methods=[])
     def field(self, request, pk=None):
+        """The vacancy's field."""
         vacancy = self.get_object()
         field = vacancy.field
         serializer = FieldSerializer(field)
@@ -85,24 +95,28 @@ class VacancyViewSet(ModelViewSet):
 
 
 class RequirementViewSet(ModelViewSet):
+    """List of all the requirements related the vacancies."""
     permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Requirement.objects.all()
     serializer_class = RequirementSerializer
 
 
 class FieldViewSet(ModelViewSet):
+    """List of all the fields related to the vacancies."""
     permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Field.objects.all()
     serializer_class = FieldSerializer
 
 
 class PositionViewSet(ModelViewSet):
+    """List of all the positions related to the vacancies."""
     permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Position.objects.all()
     serializer_class = PositionSerializer
 
 
 class TagViewSet(ModelViewSet):
+    """List of all the tags related to the vacancies."""
     permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Tag.objects.all()
     serializer_class = TagSerializer

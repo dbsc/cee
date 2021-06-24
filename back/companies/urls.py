@@ -8,3 +8,5 @@ router.register(r'companies', CompanyViewSet)
 urlpatterns = [
     path('', include(router.urls))
 ]
+
+app_name = 'companies'

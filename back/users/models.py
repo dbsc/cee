@@ -1,4 +1,3 @@
-from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.contrib import auth
 from django.core.mail import send_mail
 from django.core.validators import EmailValidator
@@ -8,8 +7,6 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin
 )
-from itertools import chain
-from datetime import date
 
 
 class CustomUserManager(BaseUserManager):
@@ -74,21 +71,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     """
     Email and password are required. Other fields are optional.
     """
-    CLASS_YEAR_CHOICES = [('T%02d' % year, 'T%02d' % year) for year in
-                          chain(range(54, 100), range(0, 2000 - date.today().year + 4))]
-    username_validator = UnicodeUsernameValidator()
-    username = models.CharField(
-        _('username'),
-        max_length=150,
-        unique=True,
-        help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
-        validators=[username_validator],
-        error_messages={
-            'unique': _("A user with that username already exists."),
-        },
-    )
-    # first_name = models.CharField(_('first name'), max_length=150, blank=True)
-    # last_name = models.CharField(_('last name'), max_length=150, blank=True)
+    nickname = models.CharField(_('nickname'), max_length=150, blank=True)
     email_validator = EmailValidator()
     email = models.EmailField(
         _('email address'),
@@ -98,10 +81,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         error_messages={
             'unique': _("A user with that email already exists"),
         },
-    )
-    class_year = models.CharField(
-        max_length=3,
-        choices=CLASS_YEAR_CHOICES,
     )
     is_staff = models.BooleanField(
         _('staff status'),
@@ -117,12 +96,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         ),
     )
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
+    # event_watchlist = ManyToManyField()
+    # vacancy_watchlist = ManyToManyField()
 
     objects = CustomUserManager()
-
-    # EMAIL_FIELD = 'email'
-    # USERNAME_FIELD = 'username'
-    # REQUIRED_FIELDS = ['email']
 
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
@@ -138,18 +115,18 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
 
-    # def get_full_name(self):
-    #     """
-    #     Return the first_name plus the last_name, with a space in between.
-    #     """
-    #     full_name = '%s %s' % (self.first_name, self.last_name)
-    #     return full_name.strip()
-
-    # def get_short_name(self):
-    #     """Return the short name for the user."""
-    #     return self.first_name
-
     def email_user(self, subject, message, from_email=None, **kwargs):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
+
+class UserProfile(models.Model):
+    # CLASS_YEAR_CHOICES = [('T%02d' % year, 'T%02d' % year) for year in
+                        #   chain(range(54, 100), range(0, 2000 - date.today().year + 4))]
+    # class_year = models.CharField(
+    #     max_length=3,
+    #     choices=CLASS_YEAR_CHOICES,
+    #     blank=True,
+    #     null=True
+    # )
+    user = models.OneToOneField(CustomUser, on_delete=models.PROTECT)

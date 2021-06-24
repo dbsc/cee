@@ -7,7 +7,7 @@ from .views import (
 )
 
 router = routers.DefaultRouter()
-router.register(r'vacancies', VacancyViewSet, basename='vacancies')
+router.register(r'vacancies', VacancyViewSet)
 router.register(r'simplevacancies', SimpleVacancyViewSet)
 router.register(r'requirements', RequirementViewSet)
 router.register(r'fields', FieldViewSet)
@@ -19,3 +19,5 @@ router.register(r'locations', LocationViewSet)
 urlpatterns = [
     path('', include(router.urls))
 ]
+
+app_name = 'vacancies'
