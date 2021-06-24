@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible
 from django.utils.text import slugify
 from os.path import splitext, join
+from contextlib import contextmanager
 from uuid import uuid4
 
 
@@ -56,3 +57,15 @@ def mb_to_bytes(size):
 
 def bytes_to_mb(size):
     return size / (1024 * 1024)
+
+
+@contextmanager
+def multipart(data, file_fields=[]):
+    resources = {}
+    for field in set(file_fields).intersection(data):
+        resources[field] = open(data[field], 'rb')
+    try:
+        yield {**data, **resources}
+    finally:
+        for resource in resources.values():
+            resource.close()

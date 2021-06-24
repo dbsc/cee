@@ -66,21 +66,25 @@ class LocationSerializer(DynamicFieldsModelSerializer):
 class VacancySerializer(serializers.ModelSerializer):
     tags = TagField(
         many=True,
-        help_text='Optional tags for the vacancy.'
+        help_text='Optional tags for the vacancy.',
+        required=False,
     )
     position = PositionField(
-        allow_null=True,
-        help_text="The vacancy's position."
+        # allow_null=True,
+        help_text="The vacancy's position.",
     )
     responsibilities = ResponsibilityListField(
-        help_text="The vacancy's listed responsibilities."
+        required=False,
+        help_text="The vacancy's listed responsibilities.",
     )
     requirements = RequirementNestedField(
-        help_text="The list of requirements. Each requirement can be minimum, preferred or none."
+        required=False,
+        help_text="The list of requirements. Each requirement can be minimum, preferred or none.",
     )
     field = FieldField(
         allow_null=True,
-        help_text="The vacancy's working field."
+        required=False,
+        help_text="The vacancy's working field.",
     )
     # location = LocationField(
     #     allow_null=True,
@@ -89,8 +93,8 @@ class VacancySerializer(serializers.ModelSerializer):
     location = LocationSerializer(
         fields=['city', 'state'],
         allow_null=True,
+        required=False,
         help_text='The location of the job.',
-        required=False
     )
 
     class Meta:
@@ -191,6 +195,7 @@ class VacancySerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if attrs.get('location') and attrs.get('remote'):
             raise ValidationError('A job cannot have both a location and be remote')
+        return super().validate(attrs)
 
 
 class SimpleVacancySerializer(serializers.ModelSerializer):

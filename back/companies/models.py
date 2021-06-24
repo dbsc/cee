@@ -1,13 +1,19 @@
 from django.db import models
 from utils import FileSizeValidator, UniqueFileName
+from django.core.validators import FileExtensionValidator
+
+
+def logo_path(instance, filename):
+    basedir = 'companies'
+    ext = filename.split('.')[-1]
+    return f'{basedir}/{instance.name.lower()}.{ext}'
 
 
 class Company(models.Model):
     name = models.CharField(max_length=150)
-    logo = models.ImageField(
-        upload_to=UniqueFileName('companies/logos'),
-        validators=[FileSizeValidator(2)],
-        null=True
+    logo = models.FileField(
+        validators=[FileSizeValidator(2), FileExtensionValidator(['svg', 'png'])],
+        upload_to=logo_path
     )
     careers = models.URLField(
         max_length=350,
@@ -15,7 +21,6 @@ class Company(models.Model):
     )
     featured = models.BooleanField(
         blank=True,
-        null=True,
         default=False
     )
     # TODO: culture
