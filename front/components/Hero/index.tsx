@@ -1,6 +1,15 @@
+import { signin, signIn, signOut, useSession } from 'next-auth/client'
 import styles from './styles.module.scss'
 
 export function Hero() {
+	const [session] = useSession()
+
+	const botao = session ? (
+		<button onClick={() => signOut()}>{session.user.name}</button>
+	) : (
+		<button onClick={() => signIn('google')}>Fazer Login</button>
+	)
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.content}>
@@ -10,8 +19,8 @@ export function Hero() {
 					melhores oportunidades do mercado de trabalho
 				</p>
 				<div className={styles.buttons}>
-					<a href="/">Fazer Login</a>
-					<a href="/">Divulgar vaga no ITA</a>
+					{botao}
+					<button>Divulgar vaga no ITA</button>
 				</div>
 			</div>
 		</div>

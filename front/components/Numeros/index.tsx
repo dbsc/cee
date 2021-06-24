@@ -30,16 +30,16 @@ export function Numeros() {
 						<div className={`${styles.box} ${styles.c}`}>
 							<h1>428 Alunos do ITA</h1>
 							<p>
-								Empresas participaram de eventos organizados pela CEE em 2019. Recebendo todo
-								suporte para agendamento (levando em conta o calendário do ITA), locação do espaço,
-								divulgação, coffe-break e preparativos para o dia.
+								Participaram da VI Feira de Carreiras do ITA em 2019. O evento contou com 27
+								empresas e 150 expositores, além de alunos de outras faculdades de excelência.
 							</p>
 						</div>
 						<div className={`${styles.box} ${styles.d}`}>
 							<h1>58 Empresas</h1>
 							<p>
-								Participaram da VI Feira de Carreiras do ITA em 2019. O evento contou com 27
-								empresas e 150 expositores, além de alunos de outras faculdades de excelência.
+								Participaram de eventos organizados pela CEE em 2019. Recebendo todo suporte para
+								agendamento (levando em conta o calendário do ITA), locação do espaço, divulgação,
+								coffe-break e preparativos para o dia.
 							</p>
 						</div>
 					</div>
