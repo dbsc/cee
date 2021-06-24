@@ -35,8 +35,10 @@
 }
 
 .buttons {
-	a {
+	button {
 		display: inline-block;
+		background: var(--red-200);
+		color: white;
 		border: 1px solid var(--white);
 		border-radius: 5px;
 
@@ -49,7 +51,7 @@
 
 		transition: all 0.5s;
 
-		& + a {
+		& + button {
 			margin-left: 1rem;
 		}
 

@@ -1,6 +1,7 @@
 import styles from './styles.module.scss'
 import { ActiveLink } from '../ActiveLink'
 import Link from 'next/link'
+import { SignInButton } from '../SignInButton'
 
 export function Header() {
 	return (
@@ -23,6 +24,7 @@ export function Header() {
 						<a>Contato</a>
 					</ActiveLink>
 				</nav>
+				<SignInButton />
 			</div>
 		</header>
 	)
