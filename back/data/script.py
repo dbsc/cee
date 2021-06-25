@@ -1,13 +1,9 @@
-import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cee.settings")
-import django
-django.setup()
-
-import json
+import json, os
 from django.core.files import File
 from companies.models import Company
 from contextlib import contextmanager
 from vacancies.serializers import VacancySerializer
+
 
 def create_companies():
     with open(file_path('companies.json'), 'r') as fp:
@@ -31,7 +27,8 @@ def create_vacancies():
 
 
 def file_path(filename):
-    return os.path.join('data', filename)
+    dir = os.path.dirname(__file__)
+    return os.path.join(dir, filename)
 
 
 @contextmanager
@@ -51,5 +48,6 @@ def multipart(data, file_fields=[]):
 
 
 if __name__ == '__main__':
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", ".settings")
     create_companies()
     create_vacancies()

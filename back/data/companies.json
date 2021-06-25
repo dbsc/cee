@@ -16,12 +16,32 @@
     },
     {
         "name": "Facebook",
-        "logo": "data/logo/facebook.svg",
+        "logo": "data/logo/fb.svg",
         "careers": "https://www.facebook.com/careers/"
     },
     {
         "name": "Microsoft",
         "logo": "data/logo/microsoft.svg",
         "careers": "https://careers.microsoft.com/us/en"
+    },
+    {
+        "name": "Nestlé",
+        "logo": "data/logo/nestle.svg",
+        "careers": "https://www.nestle.com/jobs"
+    },
+    {
+        "name": "Coca-Cola Company",
+        "logo": "data/logo/coca.svg",
+        "careers": ""
+    },
+    {
+        "name": "Burns & McDonnell",
+        "logo": "data/logo/burnsmcdonell.svg",
+        "careers": ""
+    },
+    {
+        "name": "Target",
+        "logo": "data/logo/target.svg",
+        "careers": ""
     }
 ]
