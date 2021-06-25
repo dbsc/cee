@@ -10,7 +10,10 @@ def logo_path(instance, filename):
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=150)
+    name = models.CharField(
+        max_length=150,
+        unique=True
+    )
     logo = models.FileField(
         validators=[FileSizeValidator(2), FileExtensionValidator(['svg', 'png'])],
         upload_to=logo_path
