@@ -1,12 +1,12 @@
 .container {
 	background: var(--white);
-	height: 35rem;
+	height: 42rem;
 }
 
 .content {
 	.title {
 
-		max-width: 1200px;	
+		max-width: 1500px;	
 
 		h1 {
 			font-size: 3rem;
@@ -20,7 +20,7 @@
 			content: '';
 			position: absolute;
 
-			right: 8rem;
+			right: 20rem;
 			width: 3px;
 			height: 4rem;
 			top: 10.5rem;
@@ -31,9 +31,9 @@
 
 			float: left;
 			padding-top: 3rem;
-			padding-left: 3rem;
-			max-width:43rem;
-			max-height:43rem;
+			padding-left: 10rem;
+			max-width:60rem;
+			max-height:50rem;
 			width: auto;
 			height: auto;
 

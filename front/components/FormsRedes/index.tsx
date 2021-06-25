@@ -29,9 +29,9 @@ export function FormsRedes(){
 							</p>
 						</div>
 						<div className={styles.icons}>
-								<FiInstagram />
-								<FiFacebook />
-								<FiLinkedin />
+							<a href="https://www.instagram.com/cee_ita/" target="blank"><FiInstagram /></a>
+							<a href="https://www.facebook.com/estagiosita/" target="blank"><FiFacebook /></a>
+							<a href="https://www.linkedin.com/company/cee-ita/" target="blank"><FiLinkedin /></a>
 						</div>
 					</div>
 				</div>
