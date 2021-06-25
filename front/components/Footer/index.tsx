@@ -23,17 +23,17 @@ export function Footer() {
 						<FiMapPin />
 						<p>Rua H8A, 144, Campus do CTA São José dos Campos SP, 12228-460</p>
 					</div>
-					<div className={styles.email}>
+					<a className={styles.email} href="mailto:contato@ceeita.com" >
 						<FiMail />
 						<p>contato@ceeita.com</p>
-					</div>
+					</a>
 				</div>
 				<div className={styles.redesSociais}>
 					<h1>Nossas Redes</h1>
 					<div className={styles.icons}>
-						<FiInstagram />
-						<FiFacebook />
-						<FiLinkedin />
+						<a href="https://www.instagram.com/cee_ita/" target="blank"><FiInstagram /></a>
+						<a href="https://www.facebook.com/estagiosita/" target="blank"><FiFacebook /></a>
+						<a href="https://www.linkedin.com/company/cee-ita/" target="blank"><FiLinkedin /></a>
 					</div>
 					<a className={styles.button} href="/">
 						Fazer Login
