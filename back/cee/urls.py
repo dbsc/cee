@@ -34,6 +34,7 @@ urlpatterns = [
     path('companies/', include('companies.urls')),
     path('events/', include('events.urls')),
     path('social/', include('social.urls')),
+    path('emails/', include('emails.urls')),
     path('auth/', include('rest_framework.urls')),
     path('rest-auth/', include('dj_rest_auth.urls')),
     path('rest-auth/registration/', include('dj_rest_auth.registration.urls')),

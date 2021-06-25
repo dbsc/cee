@@ -5,15 +5,173 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Template</title>
-    <link rel="stylesheet" href="assets/styles/reset.css">
-    <link rel="stylesheet" href="assets/styles/style.css">
+
+    
+    <style>
+        body {
+            font-family: 'kanit';
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            height: 250px;
+            background-image: url(https://cdn.jsdelivr.net/gh/dbsc/cee@email/back/emails/templates/assets/pictures/fundo.png);
+            box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            height: 50%;
+        }
+        
+        .content {
+            width: 50vw;
+            margin: 60px auto;
+        }
+        
+        .footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            height: 250px;
+            background-image: url(https://cdn.jsdelivr.net/gh/dbsc/cee@email/back/emails/templates/assets/pictures/fundo.png);
+            box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .social {
+            display: flex;
+            justify-content: space-between;
+            width: 150px;
+            height: 50px;
+        }
+        
+        .social ion-icon {
+            color: white;
+            font-size: 30px;
+        }
+        
+        .horizontal-box {
+            height: 5px;
+            width: 50vw;
+            background-color: rgb(150, 6, 24);
+        }
+        
+        .copyright {
+            width: 50vw;
+            flex-wrap: wrap;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            font-style: italic;
+            color: white;
+        }
+        
+        .questions {
+            width: 50vw;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            text-align: center;
+            font-size: 14px;
+            color: white;
+        }
+        
+        .title {
+            font-size: 48px;
+            font-weight: bold;
+            text-align: center;
+            flex-wrap: wrap;
+        }
+        
+        .divisor {
+            margin-top: 20px;
+            height: 4px;
+            background-color: black;
+            width: 50vw;
+        }
+        
+        .description {
+            overflow-wrap: break-word;
+            width: 50vw;
+            flex-wrap: wrap;
+            font-size: 20px;
+            text-align: left;
+            margin-top: 20px;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            .title {
+            font-size: 30px;
+            }
+            .description {
+                font-size: 16px;
+            }
+        }
+        
+        
+        
+        
+        /* http://meyerweb.com/eric/tools/css/reset/ 
+        v2.0 | 20110126
+        License: none (public domain)
+        */
+        
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed, 
+        figure, figcaption, footer, header, hgroup, 
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+        /* HTML5 display-role reset for older browsers */
+        article, aside, details, figcaption, figure, 
+        footer, header, hgroup, menu, nav, section {
+            display: block;
+        }
+        body {
+            line-height: 1;
+        }
+        ol, ul {
+            list-style: none;
+        }
+        blockquote, q {
+            quotes: none;
+        }
+        blockquote:before, blockquote:after,
+        q:before, q:after {
+            content: '';
+            content: none;
+        }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        
+    </style>
+
 </head>
 <body>
-    <div class="header"><img src="assets/pictures/logo_white_text.svg" class="logo" alt="logo"></div>
+    <div class="header"><img src="https://lh6.googleusercontent.com/NPa0wxLq8zUOrinXnGFM5sGEm7TPA64JWO_5r3bT7KL7LkRZAA98Nyw2BLGBLUk5209TdbY2knCRoQCpcJ9fKHfDz12JN-iP_dKDPaaRcx467e_h=w1280" class="logo" alt="logo"></div>
     <div class="content">
-        <div class="title">Seu título aqui</div>
+        <div class="title">{{ company }}</div>
         <div class="divisor"></div>
-        <div class="description">testetestetestetestetestetestetestetestetestetestetesteteste</div>
+        <div class="description">{{ description }}</div>
         <div class="divisor"></div>
     </div>
     <div class="footer">
