@@ -11,7 +11,7 @@ export function FormsRedes(){
 						<div className={`${styles.box} ${styles.a}`}>
 							<h1>Formulário</h1>
 							<p>
-                                Acesse o formulário de contato pelo <a href="https://forms.gle/V3oNNjSKr5ZnQtQT8">link</a>, para:
+                                Acesse o formulário de contato pelo <a href="https://forms.gle/V3oNNjSKr5ZnQtQT8" target= "blank">link</a>, para:
 							</p>
 							<ul>
                                 <li>Marcação de Eventos</li>

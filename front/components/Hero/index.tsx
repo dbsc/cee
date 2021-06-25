@@ -21,7 +21,7 @@ export function Hero() {
 				<div className={styles.buttons}>
 					{botao}
 					<button type="button" onClick={(e) => {e.preventDefault(); 
-						window.location.href='https://forms.gle/V3oNNjSKr5ZnQtQT8'}}>
+						window.open('https://forms.gle/V3oNNjSKr5ZnQtQT8', '_blank')}}>
 						Divulgar vaga no ITA</button>
 				</div>
 			</div>
