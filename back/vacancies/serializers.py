@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
 from rest_framework.exceptions import ValidationError
+from companies.serializers import CompanySerializer
 
 from .models import (
     Location, Position, Responsibility, SimpleVacancy,
@@ -64,6 +65,9 @@ class LocationSerializer(DynamicFieldsModelSerializer):
 
 
 class VacancySerializer(serializers.ModelSerializer):
+    company = CompanySerializer(
+        help_text='The company.'
+    )
     tags = TagField(
         many=True,
         help_text='Optional tags for the vacancy.',

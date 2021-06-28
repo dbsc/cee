@@ -11,7 +11,7 @@ import axios from 'axios'
 interface VagaProps {
 	id: number
 	title: string
-	company: object
+	company: string
 	field: string
 	position: string
 	pay: string
@@ -31,7 +31,7 @@ export default function Vaga(props: VagaProps) {
 					<div className={styles.box}>
 						<div className={styles.mainInfo}>
 							<div className={styles.title}>{props.title}</div>
-							<div className={styles.subtitle}>{props.company.name}</div>
+							<div className={styles.subtitle}>{props.company}</div>
 
 							<div className={styles.info1}>
 								<div>Área: {props.field}</div>
@@ -146,12 +146,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
 	// 		console.error('Ocorreu um erro' + err)
 	// 	})
 
-	const response = await axios.get(`https//localhost:8000/vacancies/vacancies/${id}`)
+	const response = await axios.get(`http://127.0.0.1:8000/vacancies/vacancies/${id}`)
 
 	const vaga: VagaProps = {
 		id: response.data.id,
 		title: response.data.title,
-		company: response.data.company,
+		company: response.data.company.name,
 		field: response.data.field,
 		position: response.data.position,
 		pay: new Intl.NumberFormat('pr-BR', { style: 'currency', currency: 'BRL' }).format(

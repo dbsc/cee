@@ -9,7 +9,7 @@ from .models import (
     Position, Tag, Responsibility, Field
 )
 from .serializers import (
-    SimpleVacancySerializer, VacancySerializer, RequirementSerializer,
+    LocationSerializer, SimpleVacancySerializer, VacancySerializer, RequirementSerializer,
     FieldSerializer, PositionSerializer, TagSerializer,
     ResponsibilitySerializer
 )
@@ -131,4 +131,4 @@ class ResponsibilityViewSet(ModelViewSet):
 class LocationViewSet(ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Location.objects.all()
-    serializer_class = ResponsibilitySerializer
+    serializer_class = LocationSerializer

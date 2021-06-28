@@ -5,6 +5,7 @@ from django.utils import timezone
 from companies.models import Company
 from utils import UniqueFileName, FileSizeValidator
 from datetime import date, timedelta
+from templated_email import send_templated_mail
 
 
 class Vacancy(models.Model):
@@ -116,6 +117,14 @@ class Vacancy(models.Model):
         if self.expiration_date:
             return self.expiration_date <= timezone.now() + time_interval
         return False
+    
+    def send_mail(self, from_email, recipient_list):
+        send_templated_mail(
+            template_name='vacancy',
+            from_email='from@example.com',
+            recipient_list=['to@example.com'],
+            context={'vacancy': self}
+        )
 
 
 class RequirementQuerySet(models.QuerySet):
@@ -199,7 +208,7 @@ class Tag(models.Model):
 class Responsibility(models.Model):
     """Responsibility model."""
     description = models.CharField(
-        max_length=200,
+        max_length=2000,
         help_text="The responsibility's description."
     )
     vacancy = models.ForeignKey(
