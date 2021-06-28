@@ -1,0 +1,81 @@
+.body {
+	height: 100vh;
+	background: var(--gray-900);
+	display: flex;
+	flex-direction: column;
+}
+
+.content {
+	width: 1120px;
+	// background: chartreuse;
+	height: 100%;
+	color: white;
+	margin: 0 auto;
+	padding: 0 2rem;
+
+	flex-grow: 1;
+
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	img {
+		height: 40rem;
+	}
+
+	.info {
+		font-size: 2rem;
+		line-height: 3rem;
+		height: 50%;
+
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		span {
+			font-weight: 500;
+			font-size: 2.5rem;
+		}
+
+		p {
+			margin-bottom: 2rem;
+		}
+
+		.buttons {
+			display: flex;
+			justify-content: space-between;
+			width: 21rem;
+
+			.button {
+				border: 1px solid var(--white);
+				border-radius: 3px;
+				display: inline-block;
+
+				width: 10rem;
+				padding: 0.5rem 0;
+
+				text-align: center;
+				font-size: 1.2rem;
+				font-weight: 400;
+
+				margin-top: auto;
+
+				transition: background 0.5s;
+
+				&:hover {
+					background: black;
+				}
+			}
+		}
+	}
+}
+
+@keyframes aguia {
+	0%,
+	100% {
+		height: 38rem;
+	}
+	50% {
+		height: 42rem;
+	}
+}

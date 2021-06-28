@@ -2,8 +2,17 @@ import styles from './styles.module.scss'
 import { ActiveLink } from '../ActiveLink'
 import Link from 'next/link'
 import { SignInButton } from '../SignInButton'
+import { useSession } from 'next-auth/client'
 
 export function Header() {
+	const [session] = useSession()
+
+	const dashboard = session ? (
+		<ActiveLink activeClassName={styles.active} href="/dashboard">
+			<a>Dashboard</a>
+		</ActiveLink>
+	) : null
+
 	return (
 		<header className={styles.container}>
 			<div className={styles.content}>
@@ -23,6 +32,8 @@ export function Header() {
 					<ActiveLink activeClassName={styles.active} href="/contato">
 						<a>Contato</a>
 					</ActiveLink>
+
+					{dashboard}
 				</nav>
 				<SignInButton />
 			</div>

@@ -14,7 +14,11 @@ export function SignInButton() {
 			<FiX className={styles.closeIcon} />
 		</button>
 	) : (
-		<button type="button" className={styles.signInButton} onClick={() => signIn('google')}>
+		<button
+			type="button"
+			className={styles.signInButton}
+			onClick={() => signIn('google', { callbackUrl: 'http://localhost:3000/dashboard' })}
+		>
 			<FaGoogle color="#000" />
 			Login com Google
 		</button>

@@ -1,0 +1,120 @@
+.card {
+	background: var(--gray-50);
+	width: 340px;
+	height: 232px;
+	position: relative;
+
+	border-radius: 10px;
+
+	margin-bottom: 1rem;
+
+	cursor: pointer;
+
+	&:hover {
+		filter: brightness(0.7);
+	}
+
+	transition: filter 0.5s ease;
+}
+
+.header {
+	background: var(--red-500);
+	padding: 10px;
+	border-radius: 10px 10px 0 0;
+	height: 77.6px;
+
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	.logo {
+		background-color: var(--white);
+		border-radius: 50%;
+		min-width: 50px;
+		height: 50px;
+		overflow: hidden;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		svg {
+			width: 35px;
+			height: 35px;
+		}
+	}
+
+	.info {
+		margin-left: 1rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		color: white;
+		height: 100%;
+
+		.title {
+			font-size: 1rem;
+			font-weight: 500;
+			line-height: 1.2rem;
+		}
+
+		.subtitle {
+			font-size: 0.8rem;
+		}
+	}
+}
+
+.description {
+	height: 132px;
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+	.info1 {
+		font-weight: 400;
+		font-size: 0.9rem;
+	}
+
+	.info2 {
+		.icon {
+			font-size: 0.9rem;
+			display: flex;
+			align-items: center;
+			color: gray;
+
+			svg {
+				margin-right: 0.5rem;
+			}
+		}
+
+		.downicons {
+			display: flex;
+
+			#money {
+				margin-left: 5rem;
+			}
+		}
+	}
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	background: rgb(202, 202, 202);
+	height: 30px;
+	width: 100%;
+	border-radius: 0 0 10px 10px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+
+	.info {
+		margin-right: 1rem;
+
+		span {
+			font-weight: 500;
+			font-style: italic;
+			color: var(--red-500);
+		}
+	}
+}

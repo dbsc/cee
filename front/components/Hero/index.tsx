@@ -7,7 +7,9 @@ export function Hero() {
 	const botao = session ? (
 		<button onClick={() => signOut()}>{session.user.name}</button>
 	) : (
-		<button onClick={() => signIn('google')}>Fazer Login</button>
+		<button onClick={() => signIn('google', { callbackUrl: 'http://localhost:3000/vagas' })}>
+			Fazer Login
+		</button>
 	)
 
 	return (
