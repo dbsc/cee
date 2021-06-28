@@ -11,9 +11,12 @@ interface CardProps {
 	position: string
 	pay: string
 	date: string
+	location: { city: string; state: string }
 }
 
 export function CardVaga(props: CardProps) {
+	const location = props.location ? `${props.location.state} - ${props.location.city}` : 'Remoto'
+	const date = `Até ${props.date}` && 'Sem data'
 	return (
 		<Link href={'/vagas/' + props.id}>
 			<div className={styles.card}>
@@ -35,12 +38,12 @@ export function CardVaga(props: CardProps) {
 					<div className={styles.info2}>
 						<div className={styles.icon}>
 							<FaCalendarAlt />
-							<div className={styles.info}>Até 10/10/2021</div>
+							<div className={styles.info}>{date}</div>
 						</div>
 						<div className={styles.downicons}>
 							<div className={styles.icon}>
 								<FaMapMarkerAlt />
-								<div className={styles.info}>Remoto</div>
+								<div className={styles.info}>{location}</div>
 							</div>
 							<div className={styles.icon} id={styles.money}>
 								<FaRegMoneyBillAlt />
