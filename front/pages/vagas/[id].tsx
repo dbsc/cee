@@ -18,7 +18,7 @@ interface VagaProps {
 	date: string
 }
 
-export function Vaga(props: VagaProps) {
+export default function Vaga(props: VagaProps) {
 	return (
 		<>
 			<Head>
