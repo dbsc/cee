@@ -19,7 +19,7 @@ interface VagaProps {
 	location: { city: string; state: string }
 	description: string
 	requirements: string[]
-	responsabilities: string[]
+	responsibilities: string[]
 	link: string
 }
 
@@ -63,14 +63,14 @@ export default function Vaga(props: VagaProps) {
 
 							<StandartButton link={props.link}>Candidar-se</StandartButton>
 
-							<div>Essa é a vaga de id: {props.id}</div>
+							{/* <div>Essa é a vaga de id: {props.id}</div> */}
 						</div>
 
 						<div className={styles.description}>
 							<div className={styles.title}>DESCRIÇÃO DA VAGA</div>
 							<div>{props.description}</div>
 							<div className={styles.subtitle}>Responsabilidades</div>
-							{props.responsabilities.map((elem, index) => (
+							{props.responsibilities.map((elem, index) => (
 								<div key={index}>
 									{elem} <br />
 								</div>
@@ -131,10 +131,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
 		date: response.data.expiration_date,
 		description: response.data.description,
 		location: response.data.location,
-		requirements: response.data.requirements.minimun,
-		responsabilities: response.data.responsabilities,
+		requirements: response.data.requirements.preferred,
+		responsibilities: response.data.responsibilities,
 		link: response.data.link,
 	}
+	// console.log(response.data)
+	console.log(vaga)
 
 	if (!session) {
 		return {
