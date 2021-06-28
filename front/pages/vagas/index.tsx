@@ -4,21 +4,20 @@ import styles from '../../styles/vagas.module.scss'
 import { getSession } from 'next-auth/client'
 import { CardVaga } from '../../components/CardVaga'
 import { DashBoardHeader } from '../../components/DashboardHeader'
+import axios from 'axios'
 
-import Array from '../../vacancies.json'
+interface CardProps {
+	id: number
+	title: string
+	company: string
+	field: string
+	position: string
+	pay: string
+	date: string
+	location: { city: string; state: string }
+}
 
-export default function Vagas({ session }) {
-	const vagas = Array.map((vaga, index) => {
-		return {
-			id: index,
-			title: vaga.title,
-			company: vaga.company,
-			field: vaga.field,
-			position: vaga.position,
-			pay: new Intl.NumberFormat('pr-BR', { style: 'currency', currency: 'BRL' }).format(vaga.pay),
-			date: vaga.expiration_date,
-		}
-	})
+export default function Vagas(props: [CardProps]) {
 	return (
 		<>
 			<Head>
@@ -31,8 +30,9 @@ export default function Vagas({ session }) {
 					<h1 className={styles.title}>Vagas</h1>
 
 					<div className={styles.cards}>
-						{vagas.map((vaga) => (
+						{props.map((vaga) => (
 							<CardVaga
+								key={vaga.id}
 								id={vaga.id}
 								title={vaga.title}
 								company={vaga.company}
@@ -40,6 +40,7 @@ export default function Vagas({ session }) {
 								position={vaga.position}
 								pay={vaga.pay}
 								date={vaga.date}
+								location={vaga.location}
 							/>
 						))}
 					</div>
@@ -59,9 +60,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			},
 		}
 	}
+
+	const response = await axios.get(`https//localhost:8000/vacancies/vacancies/`)
+	const VacancyArray = response.data.results.map((vaga) => {
+		return {
+			id: vaga.id,
+			title: vaga.title,
+			company: vaga.company.name,
+			field: vaga.field,
+			position: vaga.position,
+			pay: new Intl.NumberFormat('pr-BR', { style: 'currency', currency: 'BRL' }).format(vaga.pay),
+			date: vaga.expiration_date,
+			location: vaga.location,
+		}
+	})
+
 	return {
-		props: {
-			session,
-		},
+		props: VacancyArray,
 	}
 }

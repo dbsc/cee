@@ -11,15 +11,21 @@ import axios from 'axios'
 interface VagaProps {
 	id: number
 	title: string
-	company: object
+	company: string
 	field: string
 	position: string
 	pay: string
 	date: string
+	location: { city: string; state: string }
 	description: string
+	requirements: string[]
+	responsabilities: string[]
+	link: string
 }
 
 export default function Vaga(props: VagaProps) {
+	const location = props.location ? `${props.location.state} - ${props.location.city}` : 'Remoto'
+	const date = `Até ${props.date}` && 'Sem data'
 	return (
 		<>
 			<Head>
@@ -31,7 +37,7 @@ export default function Vaga(props: VagaProps) {
 					<div className={styles.box}>
 						<div className={styles.mainInfo}>
 							<div className={styles.title}>{props.title}</div>
-							<div className={styles.subtitle}>{props.company.name}</div>
+							<div className={styles.subtitle}>{props.company}</div>
 
 							<div className={styles.info1}>
 								<div>Área: {props.field}</div>
@@ -41,21 +47,21 @@ export default function Vaga(props: VagaProps) {
 							<div className={styles.icons}>
 								<div className={styles.icon}>
 									<FaMapMarkerAlt />
-									<div>Remoto</div>
+									<div>{location}</div>
 								</div>
 								<div className={styles.icon} id={styles.money}>
 									<FaRegMoneyBillAlt />
-									<div>R$ 1000,00</div>
+									<div>{props.pay}</div>
 								</div>
 								<div className={styles.icon} id={styles.data}>
 									<FaCalendarAlt />
 									<div>
-										Até <span> 10/10/2021</span>
+										<span>{date}</span>
 									</div>
 								</div>
 							</div>
 
-							<StandartButton>Candidar-se</StandartButton>
+							<StandartButton link={props.link}>Candidar-se</StandartButton>
 
 							<div>Essa é a vaga de id: {props.id}</div>
 						</div>
@@ -115,7 +121,7 @@ export default function Vaga(props: VagaProps) {
 					</div>
 
 					<div className={styles.button}>
-						<StandartButton>CANDIDATAR-SE</StandartButton>
+						<StandartButton link={props.link}>CANDIDATAR-SE</StandartButton>
 					</div>
 				</div>
 			</div>
@@ -151,14 +157,18 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
 	const vaga: VagaProps = {
 		id: response.data.id,
 		title: response.data.title,
-		company: response.data.company,
+		company: response.data.company.name,
 		field: response.data.field,
 		position: response.data.position,
 		pay: new Intl.NumberFormat('pr-BR', { style: 'currency', currency: 'BRL' }).format(
-			response.data
+			response.data.pay
 		),
 		date: response.data.expiration_date,
 		description: response.data.description,
+		location: response.data.location,
+		requirements: response.data.requirements.minimun,
+		responsabilities: response.data.responsabilities,
+		link: response.data.link,
 	}
 
 	if (!session) {
