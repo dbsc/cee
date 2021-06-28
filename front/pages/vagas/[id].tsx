@@ -117,7 +117,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
 	// 		console.error('Ocorreu um erro' + err)
 	// 	})
 
-	const response = await axios.get(`https//localhost:8000/vacancies/vacancies/${id}`)
+	const response = await axios.get(`http://127.0.0.1:8000/vacancies/vacancies/${id}`)
 
 	const vaga: VagaProps = {
 		id: response.data.id,

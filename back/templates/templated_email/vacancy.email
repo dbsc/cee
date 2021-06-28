@@ -1,0 +1,8 @@
+{% block subject %}
+    [Vaga] {{vacancy.company.name}} | {{vacancy.title}}
+{% endblock subject %}
+{% block plain %}
+vacancy.title
+
+vacancy.description
+{% endblock plain %}
