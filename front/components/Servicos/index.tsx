@@ -12,22 +12,22 @@ export function Servicos() {
 					<div>
 						<h1>Divulgação de Oportunidades</h1>
 						<img src="/icones/oportunidades.svg" alt="Divulgação de Oportunidades" />
-						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia cupiditate vitae</p>
+						<p>Divulgamos todo tipo de oportunidade interessante para a comunidade iteana</p>
 					</div>
 					<div>
 						<h1>Eventos Semanais</h1>
 						<img src="/icones/eventos.svg" alt="Eventos Semanais" />
-						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia cupiditate vitae</p>
+						<p>Organizamos eventos e treinamentos toda semana com empresas parceiras</p>
 					</div>
 					<div>
 						<h1>Feira de Carreiras</h1>
 						<img src="/icones/carreira.svg" alt="Feira de Carreiras" />
-						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia cupiditate vitae</p>
+						<p>Organizamos o maior evento anual do ITA reunindo muitas empresas de interesse da comunidade</p>
 					</div>
 					<div>
 						<h1>Estruturação de Estágios </h1>
 						<img src="/icones/estagio.svg" alt="Estruturação de Estágios " />
-						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia cupiditate vitae</p>
+						<p>Auxiliamos na divulgação e aplicação de processos seletivos de estágios</p>
 					</div>
 				</div>
 			</div>

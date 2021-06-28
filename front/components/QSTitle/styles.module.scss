@@ -1,0 +1,56 @@
+.container {
+	background: var(--white);
+	height: 42rem;
+}
+
+.content {
+	.title {
+
+		max-width: 1500px;	
+
+		h1 {
+			font-size: 3rem;
+			color: #000000;
+			padding-top: 5rem;
+			text-align: right;
+			margin-right: 0;
+		}
+
+		&::before {
+			content: '';
+			position: absolute;
+
+			right: 20rem;
+			width: 3px;
+			height: 4rem;
+			top: 10.5rem;
+			background: var(--red-200);
+		}
+
+		img {
+
+			float: left;
+			padding-top: 3rem;
+			padding-left: 10rem;
+			max-width:60rem;
+			max-height:50rem;
+			width: auto;
+			height: auto;
+
+		}
+
+		p {
+
+			padding-top: 3rem;
+			text-align: right;
+			font-size: 2rem;
+
+		}
+
+		span {
+			font-size: 2rem;
+			font-weight: 500;
+			font-style: italic;
+		}
+	}
+}

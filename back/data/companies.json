@@ -1,0 +1,47 @@
+[
+    {
+        "name": "Pixar",
+        "logo": "data/logo/pixar.svg",
+        "careers": "https://pixar.wd5.myworkdayjobs.com/en-US/Pixar_External_Career_Site"
+    },
+    {
+        "name": "Google",
+        "logo": "data/logo/google.svg",
+        "careers": "https://careers.google.com/jobs/"
+    },
+    {
+        "name": "Apple",
+        "logo": "data/logo/apple.svg",
+        "careers": "https://www.apple.com/careers/br/"
+    },
+    {
+        "name": "Facebook",
+        "logo": "data/logo/fb.svg",
+        "careers": "https://www.facebook.com/careers/"
+    },
+    {
+        "name": "Microsoft",
+        "logo": "data/logo/microsoft.svg",
+        "careers": "https://careers.microsoft.com/us/en"
+    },
+    {
+        "name": "Nestlé",
+        "logo": "data/logo/nestle.svg",
+        "careers": "https://www.nestle.com/jobs"
+    },
+    {
+        "name": "Coca-Cola Company",
+        "logo": "data/logo/coca.svg",
+        "careers": ""
+    },
+    {
+        "name": "Burns & McDonnell",
+        "logo": "data/logo/burnsmcdonell.svg",
+        "careers": ""
+    },
+    {
+        "name": "Target",
+        "logo": "data/logo/target.svg",
+        "careers": ""
+    }
+]

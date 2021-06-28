@@ -1,0 +1,95 @@
+.container {
+	background: var(--white);
+}
+
+.content {
+	max-width: 1120px;
+	margin: 0 auto;
+	padding: 3.5rem 2rem;
+
+	.numbers {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		margin-top: 2rem;
+
+		h1 {
+			margin-top: 1rem;
+			margin-bottom: 1rem;
+			color: var(--red-200);
+			font-weight: 600;
+			font-size: 1.875rem;
+		}
+
+		p {
+			font-size: 1.4rem;
+			margin-bottom: 1rem;
+		}
+
+		.left {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+			text-align: center;
+			width: 33rem;
+			padding-right: 8rem;
+
+			.a {
+				margin: 0 0;
+			}
+
+			.b {
+				margin: 5rem 0;
+			}
+
+			.c {
+				margin: 0 0;
+			}
+		}
+
+		.right {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			width: 33rem;
+			padding-left: 8rem;
+
+			.d {
+				margin: 0 0;
+			}
+
+			.e {
+				margin: 5rem 0;
+			}
+
+			.f {
+				margin: 0 0;
+			}
+		}
+
+		.box {
+			width: 36rem;
+			border: 5px solid var(--red-800);
+			border-radius: 15px;
+		}
+	}
+}
+
+.title {
+	font-size: 2.25rem;
+	color: var(--white);
+	position: relative;
+	line-height: 2.5rem;
+	width: 100%;
+	height: 8rem;
+	text-align: center;
+	padding-top: 2.6rem;
+	background-color: var(--red-200);
+}
+
+.Faixa {
+	background-color: var(--white);
+	height: 1px;
+}

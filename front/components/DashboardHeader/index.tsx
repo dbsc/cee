@@ -17,7 +17,7 @@ export function DashBoardHeader() {
 					<ActiveLink activeClassName={styles.active} href="/vagas">
 						<a>Vagas</a>
 					</ActiveLink>
-					<ActiveLink activeClassName={styles.active} href="/eventos">
+					<ActiveLink activeClassName={styles.active} href="/">
 						<a>Eventos</a>
 					</ActiveLink>
 				</nav>

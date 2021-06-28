@@ -19,14 +19,11 @@ class Vacancy(models.Model):
         help_text="A short title for the vacancy."
     )
     description = models.TextField(
-        blank=True,
         help_text="The vacancy's description."
     )
     company = models.ForeignKey(
         Company,
         on_delete=models.PROTECT,
-        blank=True,
-        null=True,
         help_text="The company that provides the job vacancy."
     )
     field = models.ForeignKey(
@@ -83,10 +80,12 @@ class Vacancy(models.Model):
     )
     featured = models.BooleanField(
         default=False,
+        blank=True,
         help_text="Whether this is a featured vacancy."
     )
     remote = models.BooleanField(
         default=False,
+        blank=True,
         help_text='Whether this is a remote job.'
     )
     location = models.ForeignKey(
@@ -198,7 +197,7 @@ class Tag(models.Model):
 
 
 class Responsibility(models.Model):
-    """Responsibility model"""
+    """Responsibility model."""
     description = models.CharField(
         max_length=200,
         help_text="The responsibility's description."
@@ -285,8 +284,8 @@ class Location(models.Model):
         help_text='Shortened name of the state.'
     )
 
-    class Meta:
-        unique_together = ['state', 'city']
+    # class Meta:
+    #     unique_together = ['state', 'city']
 
     def __str__(self):
         return f'{self.city} - {self.state}'

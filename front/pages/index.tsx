@@ -2,6 +2,8 @@ import Head from 'next/head'
 import { Hero } from '../components/Hero'
 import { Numeros } from '../components/Numeros'
 import { Servicos } from '../components/Servicos'
+import { Feira } from '../components/Feira'
+import { Estagios } from '../components/Estagios'
 import { Parceiros } from '../components/Parceiros'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
@@ -21,6 +23,10 @@ export default function Home() {
 			<Numeros />
 
 			<Servicos />
+
+			<Feira />
+
+			<Estagios />
 
 			<Parceiros />
 

@@ -1,0 +1,105 @@
+.container {
+	background: var(--gray-50);
+}
+
+.content {
+	max-width: 1120px;
+	margin: 0 auto;
+	padding: 3.5rem 2rem;
+
+	h1 {
+		color: var(--red-200);
+		font-weight: 600;
+		font-size: 1.875rem;
+		text-align: center;
+	}
+
+	.contact {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		margin-top: 2rem;
+
+		p {
+			font-size: 1rem;
+			margin-top: 1rem;
+			text-align: center;
+		}
+
+		a {
+			font-style: oblique;
+			font-weight: bold;
+			color: var(--red-500);
+		}
+
+		.left {
+
+			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
+			width: 33rem;
+			padding-right: 6rem;
+			border-right: 1.5px solid var(--red-200);
+
+			.a {
+				margin: 0 5rem;
+			}
+
+			ul {
+
+				list-style: none;
+				text-align: left;
+				padding-left: 6rem;
+				padding-top: 2rem;
+
+			}
+
+			ul li::before {
+				content: "\2022";
+				display: inline-block;
+				font-size: 1.3rem;
+				width: 1rem;
+				margin-left: -1rem;
+				color: var(--red-200);
+			}
+
+		}
+		.right {
+
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			width: 33rem;
+			padding-left: 6rem;
+			border-left: 1.5px solid var(--red-200);
+
+			.b {
+				margin: 0 5rem;
+			}
+
+			.icons {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				cursor: pointer;
+				margin-top: 2rem;
+				padding-left: 7rem;
+			
+				svg {
+					height: 40px;
+					width: 100px;
+					stroke-width: 1px;
+					transition: all 0.5s;
+			
+					&:hover {
+						stroke-width: 2px;
+					}
+				}
+			}
+		}
+
+		.box {
+			width: 23rem;
+		}
+	}
+}

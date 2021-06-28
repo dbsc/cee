@@ -1,0 +1,1 @@
+https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=991690856574-l35l130bpggmhbf2th80eqfqcgm9a47e.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Faccounts%2Fgoogle%2Flogin%2Fcallback%2F&scope=openid&state=ma7YbKzBeJ1Ay2nTBXpcOs5LFiHCP0&access_type=offline&include_granted_scopes=true
