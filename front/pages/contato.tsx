@@ -12,9 +12,7 @@ export default function Contato() {
 				<title>Contato | CEE</title>
 			</Head>
 			<Header />
-			<div className={styles.container}>
-				<h1>Contato</h1>
-			</div>
+
 			<ContatoTitle />
 			<FormsRedes />
 			<Footer />
