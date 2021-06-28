@@ -1,6 +1,6 @@
 .container {
 	background: var(--gray-900);
-	height: 100vh;
+	min-height: 100vh;
 }
 
 .content {
@@ -9,29 +9,76 @@
 	padding: 3.5rem 2rem;
 	color: white;
 
-	.title {
-		color: white;
-		font-size: 2.25rem;
-		position: relative;
-		line-height: 2.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
-		margin: 0 0 1rem 1rem;
+	.box {
+		display: flex;
+		justify-content: space-between;
 
-		&::before {
-			content: '';
-			position: absolute;
+		.mainInfo {
+			width: 50%;
 
-			width: 3px;
-			height: 100%;
-			bottom: 0;
-			left: -1rem;
-			background: var(--red-200);
+			.title {
+				font-size: 2.5rem;
+				font-weight: 500;
+				color: var(--red-500);
+			}
+
+			.subtitle {
+				font-size: 1.8rem;
+			}
+
+			.info1 {
+				margin: 1rem 0;
+			}
+
+			.icons {
+				margin-bottom: 2rem;
+				.icon {
+					display: flex;
+					align-items: center;
+					color: gray;
+
+					svg {
+						margin-right: 0.5rem;
+					}
+				}
+
+				#data {
+					margin-top: 1rem;
+					color: white;
+					font-size: 1.2rem;
+
+					span {
+						font-weight: 600;
+					}
+				}
+			}
+		}
+
+		.description {
+			width: 50%;
+			font-weight: 300;
+
+			.title {
+				font-size: 1.3rem;
+				font-weight: 600;
+				margin-bottom: 1rem;
+			}
+
+			.subtitle {
+				font-size: 1.2rem;
+				font-weight: 500;
+				margin-top: 1.5rem;
+				margin-bottom: 0.3rem;
+			}
 		}
 	}
+}
 
-	.cards {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-	}
+.button {
+	color: white;
+	margin: 10rem 0 5rem;
 }
