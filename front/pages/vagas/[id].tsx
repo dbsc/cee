@@ -11,11 +11,12 @@ import axios from 'axios'
 interface VagaProps {
 	id: number
 	title: string
-	company: string
+	company: object
 	field: string
 	position: string
 	pay: string
 	date: string
+	description: string
 }
 
 export default function Vaga(props: VagaProps) {
@@ -30,7 +31,7 @@ export default function Vaga(props: VagaProps) {
 					<div className={styles.box}>
 						<div className={styles.mainInfo}>
 							<div className={styles.title}>{props.title}</div>
-							<div className={styles.subtitle}>{props.company}</div>
+							<div className={styles.subtitle}>{props.company.name}</div>
 
 							<div className={styles.info1}>
 								<div>Área: {props.field}</div>
@@ -61,14 +62,7 @@ export default function Vaga(props: VagaProps) {
 
 						<div className={styles.description}>
 							<div className={styles.title}>DESCRIÇÃO DA VAGA</div>
-							<div className={styles.subtitle}>Sobre a Startup 🚀</div>
-							<div>
-								A Preparo é uma startup de tecnologia em recrutamento e seleção que conecta jovens
-								de alto potencial ao emprego dos sonhos. Somente em 2020, a empresa foi responsável
-								por colocar cerca de 500 pessoas no mercado, em mais de 100 empresas de pequeno,
-								médio e grande porte. Tudo isso porque a Preparo usa a tecnologia para entregar às
-								empresas candidatos com alta aderência aos cargos desejados.
-							</div>
+							<div>{props.description}</div>
 							<div className={styles.subtitle}>Sobre a vaga: 👩‍🚀</div>
 							<div>
 								O estágio de férias no área comercial da Preparo será um grande desafio para o
@@ -164,6 +158,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
 			response.data
 		),
 		date: response.data.expiration_date,
+		description: response.data.description,
 	}
 
 	if (!session) {
@@ -176,8 +171,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
 	}
 
 	return {
-		props: {
-			vaga,
-		},
+		props: vaga,
 	}
 }
