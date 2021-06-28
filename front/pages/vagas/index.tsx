@@ -17,7 +17,7 @@ interface CardProps {
 	location: { city: string; state: string }
 }
 
-export default function Vagas(props: CardProps[]) {
+export default function Vagas(props) {
 	return (
 		<>
 			<Head>
@@ -30,7 +30,7 @@ export default function Vagas(props: CardProps[]) {
 					<h1 className={styles.title}>Vagas</h1>
 
 					<div className={styles.cards}>
-						{props.map((vaga) => (
+						{props.VacancyArray.map((vaga) => (
 							<CardVaga
 								key={vaga.id}
 								id={vaga.id}
@@ -76,6 +76,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	})
 
 	return {
-		props: [...VacancyArray],
+		props: {VacancyArray},
 	}
 }
