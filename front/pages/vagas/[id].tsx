@@ -6,9 +6,19 @@ import { DashBoardHeader } from '../../components/DashboardHeader'
 import styles from '../../styles/vaga.module.scss'
 import { FaCalendarAlt, FaMapMarkerAlt, FaRegMoneyBillAlt } from 'react-icons/fa'
 import { StandartButton } from '../../components/StandartButton'
+import axios from 'axios'
 
-export default function Vaga() {
-	const router = useRouter()
+interface VagaProps {
+	id: number
+	title: string
+	company: string
+	field: string
+	position: string
+	pay: string
+	date: string
+}
+
+export function Vaga(props: VagaProps) {
 	return (
 		<>
 			<Head>
@@ -19,12 +29,12 @@ export default function Vaga() {
 				<div className={styles.content}>
 					<div className={styles.box}>
 						<div className={styles.mainInfo}>
-							<div className={styles.title}>Sales Account Intern</div>
-							<div className={styles.subtitle}>Preparo</div>
+							<div className={styles.title}>{props.title}</div>
+							<div className={styles.subtitle}>{props.company}</div>
 
 							<div className={styles.info1}>
-								<div>Área: </div>
-								<div>Posição: </div>
+								<div>Área: {props.field}</div>
+								<div>Posição: {props.position}</div>
 							</div>
 
 							<div className={styles.icons}>
@@ -46,7 +56,7 @@ export default function Vaga() {
 
 							<StandartButton>Candidar-se</StandartButton>
 
-							<div>Essa é a vaga de id: {router.query.id}</div>
+							<div>Essa é a vaga de id: {props.id}</div>
 						</div>
 
 						<div className={styles.description}>
@@ -119,8 +129,43 @@ export default function Vaga() {
 	)
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	const session = await getSession(context)
+export const getServerSideProps: GetServerSideProps = async ({ req, params }) => {
+	const session = await getSession({ req })
+	const { id } = params
+
+	// axios
+	// 	.get(`https//localhost:8000/vacancies/vacancies/${id}`)
+	// 	.then((response) => {
+	// 		const vaga: Vaga = {
+	// 			id: response.data.id,
+	// 			title: response.data.title,
+	// 			company: response.data.company,
+	// 			field: response.data.field,
+	// 			position: response.data.position,
+	// 			pay: new Intl.NumberFormat('pr-BR', { style: 'currency', currency: 'BRL' }).format(
+	// 				response.data
+	// 			),
+	// 			date: response.data.expiration_date,
+	// 		}
+	// 	})
+	// 	.catch((err) => {
+	// 		console.error('Ocorreu um erro' + err)
+	// 	})
+
+	const response = await axios.get(`https//localhost:8000/vacancies/vacancies/${id}`)
+
+	const vaga: VagaProps = {
+		id: response.data.id,
+		title: response.data.title,
+		company: response.data.company,
+		field: response.data.field,
+		position: response.data.position,
+		pay: new Intl.NumberFormat('pr-BR', { style: 'currency', currency: 'BRL' }).format(
+			response.data
+		),
+		date: response.data.expiration_date,
+	}
+
 	if (!session) {
 		return {
 			redirect: {
@@ -129,9 +174,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			},
 		}
 	}
+
 	return {
 		props: {
-			session,
+			vaga,
 		},
 	}
 }

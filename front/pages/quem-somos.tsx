@@ -16,6 +16,7 @@ export default function QuemSomos() {
 
 			<QSTitle />
 			<QSText />
+
 			<Footer />
 		</>
 	)
